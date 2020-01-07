@@ -44,4 +44,16 @@ const getProfile = gql`
   }
 `;
 
-export { createUser, login, getProfile, getUsers }
+const createSong = gql`
+  mutation($data: CreateSongInput!) {
+    createSong(
+      data: $data
+    ) {
+      id
+      name
+      notes
+    }
+  }
+`;
+
+export { createUser, login, getProfile, getUsers, createSong }

@@ -10,6 +10,8 @@ type Mutation {
   login(data: LoginUserInput!): AuthPayload!
   deleteUser: User!
   updateUser(data: UpdateUserInput!): User!
+
+  createSong(data: CreateSongInput!): Song!
 }
 
 # type Subscription {
@@ -46,6 +48,28 @@ type User {
   age: Int
   updatedAt: String!
   createdAt: String!
+}
+
+input CreateSongInput {
+  name: String!,
+  notes: String
+}
+
+type Song {
+  id: ID!
+  name: String!
+  notes: String
+  tracks: [Track!]!
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Track {
+  id: ID!
+  song: Song!
+  # show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  # set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  notes: String
 }
 
 enum MutationType {

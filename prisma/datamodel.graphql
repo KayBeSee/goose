@@ -3,6 +3,60 @@ type User {
   name: String!
   email: String! @unique
   password: String!
+  shows: [Show!]!
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
+}
+
+type Song {
+  id: ID! @unique @id
+  name: String!
+  notes: String
+  tracks: [Track!]! @unique @id @relation(name: "TrackToSong", onDelete: SET_NULL)
+}
+
+
+type Show {
+  id: ID! @unique @id
+  date: String!
+  venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
+  # setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)
+  # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
+}
+
+type Set {
+  id: ID! @unique @id
+  name: SetNumber
+  tracks: [Track!]! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
+}
+
+type Track {
+  song: Song! @relation(name: "TrackToSong", onDelete: SET_NULL)
+  show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  notes: String
+}
+
+type Venue {
+  id: ID! @unique @id
+  name: String!
+  city: String!
+  state: String!
+  shows: [Show!]! @relation(name: "VenueToShow", onDelete: SET_NULL)
+}
+
+# type Comment {
+#   id: ID!
+#   author: User! @relation(name: "CommentToUser", onDelete: SET_NULL)
+#   text: String
+#   rating: Int
+# }
+
+enum SetNumber {
+  SET_1
+  SET_2
+  SET_3
+  ENCORE_1
+  ENCORE_2
 }

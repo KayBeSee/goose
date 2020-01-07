@@ -34,7 +34,7 @@ test('Should expose public author profiles', async () => {
 
   expect(response.data.users.length).toBe(2)
   expect(response.data.users[0].email).toBe(null)
-  expect(response.data.users[0].name).toBe('Jen')
+  expect(response.data.users[0].name).toBe('Peter')
 })
 
 test('should not login with bad credentials', async () => {
@@ -53,8 +53,8 @@ test('should not login with bad credentials', async () => {
 test('should not throw with good login credentials', async () => {
   const variables = {
     data: {
-      email: "jen@example.com",
-      password: 'abcdef123'
+      email: "rick@goose.com",
+      password: 'mustache'
     }
   }
 

@@ -4,9 +4,9 @@ import prisma from '../../src/prisma'
 
 const userOne = {
   input: {
-    name: 'Jen',
-    email: 'jen@example.com',
-    password: bcrypt.hashSync('abcdef123')
+    name: 'Peter',
+    email: 'peter@goose.com',
+    password: bcrypt.hashSync('mustache')
   },
   user: undefined,
   jwt: undefined
@@ -14,13 +14,29 @@ const userOne = {
 
 const userTwo = {
   input: {
-    name: 'Jeff',
-    email: 'jeff@example.com',
-    password: bcrypt.hashSync('PassForJeff')
+    name: 'Rick',
+    email: 'rick@goose.com',
+    password: bcrypt.hashSync('mustache')
   },
   user: undefined,
   jwt: undefined
 }
+
+const songOne = {
+  input: {
+    name: 'Arcadia',
+    notes: 'Released on Moon Cabin'
+  },
+  song: undefined
+}
+
+const songTwo = {
+  input: {
+    name: 'Lead the Way',
+    notes: 'Released on Moon Cabin'
+  }
+}
+
 
 const seedDatabase = async () => {
   // delete test data
@@ -39,6 +55,14 @@ const seedDatabase = async () => {
   });
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_TOKEN_SECRET)
+
+  songOne.song = await prisma.mutation.createSong({
+    data: songOne.input
+  });
+
+  songTwo.song = await prisma.mutation.createSong({
+    data: songTwo.input
+  });
 }
 
 export { seedDatabase as default, userOne, userTwo }

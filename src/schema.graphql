@@ -12,11 +12,22 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
 
   createSong(data: CreateSongInput!): Song!
+  createShow(data: CreateShowInput!): Show!
 }
 
 # type Subscription {
 
 # }
+
+type User {
+  id: ID!
+  name: String!
+  email: String
+  password: String!
+  age: Int
+  updatedAt: String!
+  createdAt: String!
+}
 
 type AuthPayload {
   token: String!
@@ -40,21 +51,6 @@ input UpdateUserInput {
   password: String
 }
 
-type User {
-  id: ID!
-  name: String!
-  email: String
-  password: String!
-  age: Int
-  updatedAt: String!
-  createdAt: String!
-}
-
-input CreateSongInput {
-  name: String!,
-  notes: String
-}
-
 type Song {
   id: ID!
   name: String!
@@ -64,6 +60,11 @@ type Song {
   createdAt: String!
 }
 
+input CreateSongInput {
+  name: String!,
+  notes: String
+}
+
 type Track {
   id: ID!
   song: Song!
@@ -71,6 +72,27 @@ type Track {
   # set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
   notes: String
 }
+
+
+type Show {
+  id: ID!,
+  date: String,
+  venue: String, # TODO: make actual venue type
+  # setlist: [Setlist]
+  notes: String
+}
+
+input CreateShowInput {
+  date: String,
+  venue: Venue!,
+  notes: String
+}
+
+type Venue {
+  name: String,
+  city: String,
+  state: String
+},
 
 enum MutationType {
   CREATED

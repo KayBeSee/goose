@@ -20,6 +20,7 @@ type Show {
   id: ID! @unique @id
   date: String!
   venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
+  notes: String!
   # setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)
   # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
 }

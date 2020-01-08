@@ -56,4 +56,17 @@ const createSong = gql`
   }
 `;
 
-export { createUser, login, getProfile, getUsers, createSong }
+const createShow = gql`
+  mutation($data: CreateShowInput!) {
+    createShow(
+      data: $data
+    ) {
+      id
+      date
+      venue
+      notes
+    }
+  }
+`;
+
+export { createUser, login, getProfile, getUsers, createSong, createShow }

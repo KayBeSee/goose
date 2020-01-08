@@ -34,8 +34,35 @@ const songTwo = {
   input: {
     name: 'Lead the Way',
     notes: 'Released on Moon Cabin'
-  }
+  },
+  song: undefined
 }
+
+// const showOne = {
+//   input: {
+//     date: '12/21/2019',
+//     venue: {
+//       name: 'The Wall Street Theater',
+//       city: 'Norwalk',
+//       state: 'CT'
+//     },
+//     notes: 'Goosemass VI'
+//   },
+//   show: undefined
+// }
+
+// const showTwo = {
+//   input: {
+//     date: '7/13/2019',
+//     venue: {
+//       name: 'Paradise Music Festival',
+//       city: 'Covington',
+//       state: 'KY'
+//     },
+//     notes: 'Pretty dope beer festival'
+//   },
+//   show: undefined
+// }
 
 
 const seedDatabase = async () => {
@@ -56,6 +83,28 @@ const seedDatabase = async () => {
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_TOKEN_SECRET)
 
+  // showOne.show = await prisma.mutation.createShow({
+  //   data: {
+  //     ...showOne.input,
+  //     venue: {
+  //       create: {
+  //         ...showOne.input.venue
+  //       }
+  //     }
+  //   }
+  // });
+
+  // showTwo.show = await prisma.mutation.createShow({
+  //   data: {
+  //     ...showTwo.input,
+  //     venue: {
+  //       create: {
+  //         ...showTwo.input.venue
+  //       }
+  //     }
+  //   }
+  // });
+
   songOne.song = await prisma.mutation.createSong({
     data: songOne.input
   });
@@ -65,4 +114,4 @@ const seedDatabase = async () => {
   });
 }
 
-export { seedDatabase as default, userOne, userTwo }
+export { seedDatabase as default, userOne, userTwo, songOne, songTwo }

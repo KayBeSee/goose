@@ -60,21 +60,37 @@ export const Mutation = {
       data: args.data
     }, info)
   },
-  async createSong(parent, args, { prisma }, info) {
-    console.log('hits createSong mutation')
-    const song = await prisma.mutation.createSong({
+  async createShow(parent, args, { prisma }, info) {
+    const show = await prisma.mutation.createShow({
       data: {
         ...args.data,
-        tracks: [{
-          notes: 'foobar',
-          show: null,
-          set: null
-        }]
+        venue: {
+          create: {
+            ...args.data.venue
+          }
+        }
       }
     });
 
     return {
-      song
+      show
     }
   },
+  // async createSong(parent, args, { prisma }, info) {
+  //   console.log('hits createSong mutation')
+  //   const song = await prisma.mutation.createSong({
+  //     data: {
+  //       ...args.data,
+  //       tracks: [{
+  //         notes: 'foobar',
+  //         show: show.id,
+  //         set: set.id
+  //       }]
+  //     }
+  //   });
+
+  //   return {
+  //     song
+  //   }
+  // },
 }

@@ -21,10 +21,8 @@ test('Should create a new song', async () => {
     variables
   });
 
-  console.log('response: ', response);
-
   const exists = await prisma.exists.Song({
-    id: response.data.createSong.song.id
+    id: response.data.createSong.id
   })
 
   expect(exists).toBe(true)

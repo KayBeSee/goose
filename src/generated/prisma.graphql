@@ -1,9 +1,5 @@
-# source: http://localhost:4466/goose/test
-# timestamp: Tue Jan 07 2020 07:25:15 GMT-0700 (Mountain Standard Time)
-
-type AggregateSet {
-  count: Int!
-}
+# source: http://localhost:4466/default/test
+# timestamp: Sat Jan 11 2020 16:08:48 GMT-0700 (Mountain Standard Time)
 
 type AggregateShow {
   count: Int!
@@ -41,34 +37,31 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createSong(data: SongCreateInput!): Song!
-  createSet(data: SetCreateInput!): Set!
   createTrack(data: TrackCreateInput!): Track!
   createVenue(data: VenueCreateInput!): Venue!
   createShow(data: ShowCreateInput!): Show!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
-  updateSet(data: SetUpdateInput!, where: SetWhereUniqueInput!): Set
+  updateTrack(data: TrackUpdateInput!, where: TrackWhereUniqueInput!): Track
   updateVenue(data: VenueUpdateInput!, where: VenueWhereUniqueInput!): Venue
   updateShow(data: ShowUpdateInput!, where: ShowWhereUniqueInput!): Show
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSong(where: SongWhereUniqueInput!): Song
-  deleteSet(where: SetWhereUniqueInput!): Set
+  deleteTrack(where: TrackWhereUniqueInput!): Track
   deleteVenue(where: VenueWhereUniqueInput!): Venue
   deleteShow(where: ShowWhereUniqueInput!): Show
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
-  upsertSet(where: SetWhereUniqueInput!, create: SetCreateInput!, update: SetUpdateInput!): Set!
+  upsertTrack(where: TrackWhereUniqueInput!, create: TrackCreateInput!, update: TrackUpdateInput!): Track!
   upsertVenue(where: VenueWhereUniqueInput!, create: VenueCreateInput!, update: VenueUpdateInput!): Venue!
   upsertShow(where: ShowWhereUniqueInput!, create: ShowCreateInput!, update: ShowUpdateInput!): Show!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySongs(data: SongUpdateInput!, where: SongWhereInput): BatchPayload!
-  updateManySets(data: SetUpdateInput!, where: SetWhereInput): BatchPayload!
   updateManyTracks(data: TrackUpdateInput!, where: TrackWhereInput): BatchPayload!
   updateManyVenues(data: VenueUpdateInput!, where: VenueWhereInput): BatchPayload!
   updateManyShows(data: ShowUpdateInput!, where: ShowWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySongs(where: SongWhereInput): BatchPayload!
-  deleteManySets(where: SetWhereInput): BatchPayload!
   deleteManyTracks(where: TrackWhereInput): BatchPayload!
   deleteManyVenues(where: VenueWhereInput): BatchPayload!
   deleteManyShows(where: ShowWhereInput): BatchPayload!
@@ -104,18 +97,16 @@ type PageInfo {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
-  sets(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set]!
   tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track]!
   venues(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Venue]!
   shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show]!
   user(where: UserWhereUniqueInput!): User
   song(where: SongWhereUniqueInput!): Song
-  set(where: SetWhereUniqueInput!): Set
+  track(where: TrackWhereUniqueInput!): Track
   venue(where: VenueWhereUniqueInput!): Venue
   show(where: ShowWhereUniqueInput!): Show
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
-  setsConnection(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SetConnection!
   tracksConnection(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TrackConnection!
   venuesConnection(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VenueConnection!
   showsConnection(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ShowConnection!
@@ -125,204 +116,6 @@ type Query {
     """The ID of an object"""
     id: ID!
   ): Node
-}
-
-type Set implements Node {
-  id: ID!
-  name: SetNumber
-  tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track!]
-  show(where: ShowWhereInput): Show!
-}
-
-"""A connection to a list of items."""
-type SetConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [SetEdge]!
-  aggregate: AggregateSet!
-}
-
-input SetCreateInput {
-  name: SetNumber
-  tracks: TrackCreateManyWithoutShowInput
-  show: ShowCreateOneInput!
-}
-
-input SetCreateOneWithoutTracksInput {
-  create: SetCreateWithoutTracksInput
-  connect: SetWhereUniqueInput
-}
-
-input SetCreateWithoutTracksInput {
-  name: SetNumber
-  show: ShowCreateOneInput!
-}
-
-"""An edge in a connection."""
-type SetEdge {
-  """The item at the end of the edge."""
-  node: Set!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum SetNumber {
-  SET_1
-  SET_2
-  SET_3
-  ENCORE_1
-  ENCORE_2
-}
-
-enum SetOrderByInput {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type SetPreviousValues {
-  id: ID!
-  name: SetNumber
-}
-
-type SetSubscriptionPayload {
-  mutation: MutationType!
-  node: Set
-  updatedFields: [String!]
-  previousValues: SetPreviousValues
-}
-
-input SetSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [SetSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [SetSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [SetSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: SetWhereInput
-}
-
-input SetUpdateInput {
-  name: SetNumber
-  tracks: TrackUpdateManyWithoutShowInput
-  show: ShowUpdateOneInput
-}
-
-input SetUpdateOneWithoutTracksInput {
-  create: SetCreateWithoutTracksInput
-  connect: SetWhereUniqueInput
-  delete: Boolean
-  update: SetUpdateWithoutTracksDataInput
-  upsert: SetUpsertWithoutTracksInput
-}
-
-input SetUpdateWithoutTracksDataInput {
-  name: SetNumber
-  show: ShowUpdateOneInput
-}
-
-input SetUpsertWithoutTracksInput {
-  update: SetUpdateWithoutTracksDataInput!
-  create: SetCreateWithoutTracksInput!
-}
-
-input SetWhereInput {
-  """Logical AND on all given filters."""
-  AND: [SetWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [SetWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [SetWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  name: SetNumber
-
-  """All values that are not equal to given value."""
-  name_not: SetNumber
-
-  """All values that are contained in given list."""
-  name_in: [SetNumber!]
-
-  """All values that are not contained in given list."""
-  name_not_in: [SetNumber!]
-  tracks_every: TrackWhereInput
-  tracks_some: TrackWhereInput
-  tracks_none: TrackWhereInput
-  show: ShowWhereInput
-}
-
-input SetWhereUniqueInput {
-  id: ID
 }
 
 type Show implements Node {
@@ -354,11 +147,6 @@ input ShowCreateManyInput {
 input ShowCreateManyWithoutVenueInput {
   create: [ShowCreateWithoutVenueInput!]
   connect: [ShowWhereUniqueInput!]
-}
-
-input ShowCreateOneInput {
-  create: ShowCreateInput
-  connect: ShowWhereUniqueInput
 }
 
 input ShowCreateWithoutVenueInput {
@@ -457,14 +245,6 @@ input ShowUpdateManyWithoutVenueInput {
   upsert: [ShowUpsertWithWhereUniqueWithoutVenueInput!]
 }
 
-input ShowUpdateOneInput {
-  create: ShowCreateInput
-  connect: ShowWhereUniqueInput
-  delete: Boolean
-  update: ShowUpdateDataInput
-  upsert: ShowUpsertNestedInput
-}
-
 input ShowUpdateWithoutVenueDataInput {
   date: String
 }
@@ -477,11 +257,6 @@ input ShowUpdateWithWhereUniqueNestedInput {
 input ShowUpdateWithWhereUniqueWithoutVenueInput {
   where: ShowWhereUniqueInput!
   data: ShowUpdateWithoutVenueDataInput!
-}
-
-input ShowUpsertNestedInput {
-  update: ShowUpdateDataInput!
-  create: ShowCreateInput!
 }
 
 input ShowUpsertWithWhereUniqueNestedInput {
@@ -857,16 +632,14 @@ input SongWhereUniqueInput {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
-  set(where: SetSubscriptionWhereInput): SetSubscriptionPayload
   track(where: TrackSubscriptionWhereInput): TrackSubscriptionPayload
   venue(where: VenueSubscriptionWhereInput): VenueSubscriptionPayload
   show(where: ShowSubscriptionWhereInput): ShowSubscriptionPayload
 }
 
-type Track {
+type Track implements Node {
+  id: ID!
   song(where: SongWhereInput): Song!
-  show(where: SetWhereInput): Set!
-  set(where: SetWhereInput): Set!
   notes: String
 }
 
@@ -883,28 +656,15 @@ type TrackConnection {
 input TrackCreateInput {
   notes: String
   song: SongCreateOneWithoutTracksInput!
-  show: SetCreateOneWithoutTracksInput!
-  set: SetCreateOneWithoutTracksInput!
-}
-
-input TrackCreateManyWithoutShowInput {
-  create: [TrackCreateWithoutShowInput!]
 }
 
 input TrackCreateManyWithoutSongInput {
   create: [TrackCreateWithoutSongInput!]
-}
-
-input TrackCreateWithoutShowInput {
-  notes: String
-  song: SongCreateOneWithoutTracksInput!
-  set: SetCreateOneWithoutTracksInput!
+  connect: [TrackWhereUniqueInput!]
 }
 
 input TrackCreateWithoutSongInput {
   notes: String
-  show: SetCreateOneWithoutTracksInput!
-  set: SetCreateOneWithoutTracksInput!
 }
 
 """An edge in a connection."""
@@ -917,10 +677,10 @@ type TrackEdge {
 }
 
 enum TrackOrderByInput {
-  notes_ASC
-  notes_DESC
   id_ASC
   id_DESC
+  notes_ASC
+  notes_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -928,6 +688,7 @@ enum TrackOrderByInput {
 }
 
 type TrackPreviousValues {
+  id: ID!
   notes: String
 }
 
@@ -973,16 +734,30 @@ input TrackSubscriptionWhereInput {
 input TrackUpdateInput {
   notes: String
   song: SongUpdateOneWithoutTracksInput
-  show: SetUpdateOneWithoutTracksInput
-  set: SetUpdateOneWithoutTracksInput
-}
-
-input TrackUpdateManyWithoutShowInput {
-  create: [TrackCreateWithoutShowInput!]
 }
 
 input TrackUpdateManyWithoutSongInput {
   create: [TrackCreateWithoutSongInput!]
+  connect: [TrackWhereUniqueInput!]
+  disconnect: [TrackWhereUniqueInput!]
+  delete: [TrackWhereUniqueInput!]
+  update: [TrackUpdateWithWhereUniqueWithoutSongInput!]
+  upsert: [TrackUpsertWithWhereUniqueWithoutSongInput!]
+}
+
+input TrackUpdateWithoutSongDataInput {
+  notes: String
+}
+
+input TrackUpdateWithWhereUniqueWithoutSongInput {
+  where: TrackWhereUniqueInput!
+  data: TrackUpdateWithoutSongDataInput!
+}
+
+input TrackUpsertWithWhereUniqueWithoutSongInput {
+  where: TrackWhereUniqueInput!
+  update: TrackUpdateWithoutSongDataInput!
+  create: TrackCreateWithoutSongInput!
 }
 
 input TrackWhereInput {
@@ -994,6 +769,46 @@ input TrackWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [TrackWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   notes: String
 
   """All values that are not equal to given value."""
@@ -1035,8 +850,10 @@ input TrackWhereInput {
   """All values not ending with the given string."""
   notes_not_ends_with: String
   song: SongWhereInput
-  show: SetWhereInput
-  set: SetWhereInput
+}
+
+input TrackWhereUniqueInput {
+  id: ID
 }
 
 type User implements Node {

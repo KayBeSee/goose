@@ -13,10 +13,18 @@ services:
         databases:
           default:
             connector: postgres
-            host: ec2-174-129-254-220.compute-1.amazonaws.com
+            host: postgres
             port: '5432'
-            database: drflok8lal61h
-            ssl: true
-            user: dnjnvjwvcozqqf
-            password: 4a44d038a7cb4b313226f6f55136d3488bec648670127315559e29697f719f2d
+            user: prisma
+            password: prisma
             migrations: true
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:

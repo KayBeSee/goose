@@ -12,7 +12,7 @@ type Song {
   id: ID! @unique @id
   name: String!
   notes: String
-  tracks: [Track!]! @unique @id @relation(name: "TrackToSong", onDelete: SET_NULL)
+  tracks: [Track!]! @relation(name: "TrackToSong", onDelete: SET_NULL)
 }
 
 
@@ -24,17 +24,18 @@ type Show {
   # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
 }
 
-type Set {
-  id: ID! @unique @id
-  name: SetNumber
-  tracks: [Track!]! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
-}
+# type Set {
+#   id: ID! @unique @id
+#   name: SetNumber
+#   tracks: [Track!]! @relation(name: "TrackToSet", onDelete: SET_NULL)
+#   show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
+# }
 
 type Track {
+  id: ID! @unique @id
   song: Song! @relation(name: "TrackToSong", onDelete: SET_NULL)
-  show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  # show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  # set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
   notes: String
 }
 

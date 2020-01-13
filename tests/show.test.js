@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill'
 import prisma from '../src/prisma'
-import seedDatabase from './utils/seedDatabase'
+import seedDatabase, { trackOne, trackTwo } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createShow } from './utils/operations'
 
@@ -18,9 +18,31 @@ test('Should create a new show', async () => {
           city: 'Denver',
           state: 'CO'
         }
+      },
+      setlist: {
+        create: [
+          {
+            name: "SET_1",
+            tracks: {
+              connect: [
+                { id: trackOne.track.id },
+                { id: trackTwo.track.id }
+              ]
+            }
+          },
+          {
+            name: "SET_2",
+            tracks: {
+              connect: [
+                { id: trackOne.track.id },
+                { id: trackTwo.track.id }
+              ]
+            }
+          }
+        ]
       }
     }
-  }
+  };
 
   const response = await client.mutate({
     mutation: createShow,
@@ -33,3 +55,4 @@ test('Should create a new show', async () => {
 
   expect(exists).toBe(true)
 });
+

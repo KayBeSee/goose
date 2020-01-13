@@ -3,6 +3,7 @@
 type Query {
   users(query: String, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
   me: User!
+  shows(query: String, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [Show!]!
 }
 
 type Mutation {
@@ -13,6 +14,7 @@ type Mutation {
 
   createSong(data: SongCreateInput!): Song!
   createTrack(data: TrackCreateInput!): Track!
+  createSet(data: SetCreateInput!): Set!
   createShow(data: ShowCreateInput!): Show!
 }
 
@@ -61,11 +63,6 @@ type Song {
   createdAt: String!
 }
 
-input CreateSongInput {
-  name: String!,
-  notes: String
-}
-
 type Track {
   id: ID!
   song: Song!
@@ -78,6 +75,7 @@ type Show {
   id: ID!
   date: String!
   venue: Venue!
+  setlist: [Set!]!
 }
 
 type Venue {
@@ -87,14 +85,22 @@ type Venue {
   state: String!
 }
 
-input VenueInput {
-  name: String!
-  city: String!
-  state: String!
+type Set {
+  id: ID!
+  name: SetNumber
+  tracks: [Track!]
 }
 
 enum MutationType {
   CREATED
   UPDATED
   DELETED
+}
+
+enum SetNumber {
+  SET_1
+  SET_2
+  SET_3
+  ENCORE_1
+  ENCORE_2
 }

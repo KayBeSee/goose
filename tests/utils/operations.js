@@ -74,6 +74,24 @@ const createTrack = gql`
   }
 `;
 
+const createSet = gql`
+  mutation($data: SetCreateInput!) {
+    createSet(
+      data: $data
+    ) {
+      id
+      name
+      tracks {
+        id
+        song {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const createShow = gql`
   mutation($data: ShowCreateInput!) {
     createShow(
@@ -86,8 +104,20 @@ const createShow = gql`
         city
         state
       }
+      setlist {
+        id
+        name
+        tracks {
+          id
+          notes
+          song {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `;
 
-export { createUser, login, getProfile, getUsers, createSong, createShow, createTrack }
+export { createUser, login, getProfile, getUsers, createSong, createShow, createTrack, createSet }

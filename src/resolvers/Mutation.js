@@ -72,10 +72,16 @@ export const Mutation = {
     }, '{ id notes song { id name notes } }');
     return track
   },
+  async createSet(parent, args, { prisma }, info) {
+    const set = await prisma.mutation.createSet({
+      data: args.data
+    }, '{ id name tracks { id notes song { id name } } }');
+    return set
+  },
   async createShow(parent, args, { prisma }, info) {
     const show = await prisma.mutation.createShow({
       data: args.data
-    }, '{ id date venue { id name city state } }');
+    }, '{ id date venue { id name city state } setlist { id name tracks { id notes song { id name } } } }');
     return show
   },
 }

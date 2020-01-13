@@ -27,6 +27,11 @@ test('Should create a new track associated with a song', async () => {
         connect: {
           id: createSongResponse.data.createSong.id
         }
+      },
+      set: {
+        create: {
+          name: "SET_1"
+        }
       }
     }
   }

@@ -29,5 +29,8 @@ export const Query = {
     }, info);
 
     return foo;
+  },
+  async shows(parent, args, { prisma, request }, info) {
+    return await prisma.query.shows();
   }
 };

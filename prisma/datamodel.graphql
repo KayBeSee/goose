@@ -19,16 +19,20 @@ type Song {
 type Show {
   id: ID! @unique @id
   date: String!
+  notes: String
   venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
   setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)
   # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
+  archiveUrl: String
+  nugsNetId: String
+  bandcampAlbumId: String
 }
 
 type Set {
   id: ID! @unique @id
   name: SetNumber
   tracks: [Track!]! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  # show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
+  show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
 }
 
 type Track {

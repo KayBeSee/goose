@@ -74,8 +74,12 @@ type Track {
 type Show {
   id: ID!
   date: String!
+  notes: String
   venue: Venue!
   setlist: [Set!]!
+  archiveUrl: String
+  nugsNetId: String
+  bandcampAlbumId: String
 }
 
 type Venue {
@@ -89,6 +93,7 @@ type Set {
   id: ID!
   name: SetNumber
   tracks: [Track!]
+  show: Show!
 }
 
 enum MutationType {

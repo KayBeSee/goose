@@ -1,6 +1,6 @@
 type User {
   id: ID! @unique @id
-  name: String!
+  username: String
   email: String! @unique
   password: String!
   shows: [Show!]!
@@ -11,6 +11,7 @@ type User {
 type Song {
   id: ID! @unique @id
   name: String!
+  originalArtist: String!
   notes: String
   tracks: [Track!]! @relation(name: "TrackToSong", onDelete: SET_NULL)
 }
@@ -18,7 +19,7 @@ type Song {
 
 type Show {
   id: ID! @unique @id
-  date: String!
+  date: DateTime
   notes: String
   venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
   setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)
@@ -37,10 +38,12 @@ type Set {
 
 type Track {
   id: ID! @unique @id
+  notes: String
+  segue: Boolean
   song: Song! @relation(name: "TrackToSong", onDelete: SET_NULL)
   # show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
   set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  notes: String
+  videos: [Video!]! @relation(name: "VideoToTrack", onDelete: SET_NULL)
 }
 
 type Venue {
@@ -49,6 +52,12 @@ type Venue {
   city: String!
   state: String!
   shows: [Show!]! @relation(name: "VenueToShow", onDelete: SET_NULL)
+}
+
+type Video {
+  id: ID! @unique @id
+  videoId: String!
+  tracks: [Track!]! @relation(name: "VideoToTrack", onDelete: SET_NULL)
 }
 
 # type Comment {

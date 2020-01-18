@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Jan 14 2020 14:36:02 GMT-0700 (Mountain Standard Time)
+# timestamp: Fri Jan 17 2020 13:52:17 GMT-0700 (Mountain Standard Time)
 
 type AggregateSet {
   count: Int!
@@ -25,6 +25,10 @@ type AggregateVenue {
   count: Int!
 }
 
+type AggregateVideo {
+  count: Int!
+}
+
 type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
@@ -44,36 +48,42 @@ type Mutation {
   createSet(data: SetCreateInput!): Set!
   createTrack(data: TrackCreateInput!): Track!
   createVenue(data: VenueCreateInput!): Venue!
+  createVideo(data: VideoCreateInput!): Video!
   createShow(data: ShowCreateInput!): Show!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
   updateSet(data: SetUpdateInput!, where: SetWhereUniqueInput!): Set
   updateTrack(data: TrackUpdateInput!, where: TrackWhereUniqueInput!): Track
   updateVenue(data: VenueUpdateInput!, where: VenueWhereUniqueInput!): Venue
+  updateVideo(data: VideoUpdateInput!, where: VideoWhereUniqueInput!): Video
   updateShow(data: ShowUpdateInput!, where: ShowWhereUniqueInput!): Show
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSong(where: SongWhereUniqueInput!): Song
   deleteSet(where: SetWhereUniqueInput!): Set
   deleteTrack(where: TrackWhereUniqueInput!): Track
   deleteVenue(where: VenueWhereUniqueInput!): Venue
+  deleteVideo(where: VideoWhereUniqueInput!): Video
   deleteShow(where: ShowWhereUniqueInput!): Show
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
   upsertSet(where: SetWhereUniqueInput!, create: SetCreateInput!, update: SetUpdateInput!): Set!
   upsertTrack(where: TrackWhereUniqueInput!, create: TrackCreateInput!, update: TrackUpdateInput!): Track!
   upsertVenue(where: VenueWhereUniqueInput!, create: VenueCreateInput!, update: VenueUpdateInput!): Venue!
+  upsertVideo(where: VideoWhereUniqueInput!, create: VideoCreateInput!, update: VideoUpdateInput!): Video!
   upsertShow(where: ShowWhereUniqueInput!, create: ShowCreateInput!, update: ShowUpdateInput!): Show!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySongs(data: SongUpdateInput!, where: SongWhereInput): BatchPayload!
   updateManySets(data: SetUpdateInput!, where: SetWhereInput): BatchPayload!
   updateManyTracks(data: TrackUpdateInput!, where: TrackWhereInput): BatchPayload!
   updateManyVenues(data: VenueUpdateInput!, where: VenueWhereInput): BatchPayload!
+  updateManyVideos(data: VideoUpdateInput!, where: VideoWhereInput): BatchPayload!
   updateManyShows(data: ShowUpdateInput!, where: ShowWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySongs(where: SongWhereInput): BatchPayload!
   deleteManySets(where: SetWhereInput): BatchPayload!
   deleteManyTracks(where: TrackWhereInput): BatchPayload!
   deleteManyVenues(where: VenueWhereInput): BatchPayload!
+  deleteManyVideos(where: VideoWhereInput): BatchPayload!
   deleteManyShows(where: ShowWhereInput): BatchPayload!
 }
 
@@ -110,18 +120,21 @@ type Query {
   sets(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set]!
   tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track]!
   venues(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Venue]!
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video]!
   shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show]!
   user(where: UserWhereUniqueInput!): User
   song(where: SongWhereUniqueInput!): Song
   set(where: SetWhereUniqueInput!): Set
   track(where: TrackWhereUniqueInput!): Track
   venue(where: VenueWhereUniqueInput!): Venue
+  video(where: VideoWhereUniqueInput!): Video
   show(where: ShowWhereUniqueInput!): Show
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
   setsConnection(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SetConnection!
   tracksConnection(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TrackConnection!
   venuesConnection(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VenueConnection!
+  videosConnection(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VideoConnection!
   showsConnection(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ShowConnection!
 
   """Fetches an object given its ID"""
@@ -366,7 +379,7 @@ input SetWhereUniqueInput {
 
 type Show implements Node {
   id: ID!
-  date: String!
+  date: DateTime
   notes: String
   venue(where: VenueWhereInput): Venue!
   setlist(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set!]
@@ -386,7 +399,7 @@ type ShowConnection {
 }
 
 input ShowCreateInput {
-  date: String!
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -411,7 +424,7 @@ input ShowCreateOneWithoutSetlistInput {
 }
 
 input ShowCreateWithoutSetlistInput {
-  date: String!
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -420,7 +433,7 @@ input ShowCreateWithoutSetlistInput {
 }
 
 input ShowCreateWithoutVenueInput {
-  date: String!
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -458,7 +471,7 @@ enum ShowOrderByInput {
 
 type ShowPreviousValues {
   id: ID!
-  date: String!
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -505,7 +518,7 @@ input ShowSubscriptionWhereInput {
 }
 
 input ShowUpdateDataInput {
-  date: String
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -515,7 +528,7 @@ input ShowUpdateDataInput {
 }
 
 input ShowUpdateInput {
-  date: String
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -551,7 +564,7 @@ input ShowUpdateOneWithoutSetlistInput {
 }
 
 input ShowUpdateWithoutSetlistDataInput {
-  date: String
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -560,7 +573,7 @@ input ShowUpdateWithoutSetlistDataInput {
 }
 
 input ShowUpdateWithoutVenueDataInput {
-  date: String
+  date: DateTime
   notes: String
   archiveUrl: String
   nugsNetId: String
@@ -644,46 +657,28 @@ input ShowWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  date: String
+  date: DateTime
 
   """All values that are not equal to given value."""
-  date_not: String
+  date_not: DateTime
 
   """All values that are contained in given list."""
-  date_in: [String!]
+  date_in: [DateTime!]
 
   """All values that are not contained in given list."""
-  date_not_in: [String!]
+  date_not_in: [DateTime!]
 
   """All values less than the given value."""
-  date_lt: String
+  date_lt: DateTime
 
   """All values less than or equal the given value."""
-  date_lte: String
+  date_lte: DateTime
 
   """All values greater than the given value."""
-  date_gt: String
+  date_gt: DateTime
 
   """All values greater than or equal the given value."""
-  date_gte: String
-
-  """All values containing the given string."""
-  date_contains: String
-
-  """All values not containing the given string."""
-  date_not_contains: String
-
-  """All values starting with the given string."""
-  date_starts_with: String
-
-  """All values not starting with the given string."""
-  date_not_starts_with: String
-
-  """All values ending with the given string."""
-  date_ends_with: String
-
-  """All values not ending with the given string."""
-  date_not_ends_with: String
+  date_gte: DateTime
   notes: String
 
   """All values that are not equal to given value."""
@@ -857,6 +852,7 @@ input ShowWhereUniqueInput {
 type Song implements Node {
   id: ID!
   name: String!
+  originalArtist: String!
   notes: String
   tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track!]
 }
@@ -873,6 +869,7 @@ type SongConnection {
 
 input SongCreateInput {
   name: String!
+  originalArtist: String!
   notes: String
   tracks: TrackCreateManyWithoutSongInput
 }
@@ -884,6 +881,7 @@ input SongCreateOneWithoutTracksInput {
 
 input SongCreateWithoutTracksInput {
   name: String!
+  originalArtist: String!
   notes: String
 }
 
@@ -901,6 +899,8 @@ enum SongOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  originalArtist_ASC
+  originalArtist_DESC
   notes_ASC
   notes_DESC
   updatedAt_ASC
@@ -912,6 +912,7 @@ enum SongOrderByInput {
 type SongPreviousValues {
   id: ID!
   name: String!
+  originalArtist: String!
   notes: String
 }
 
@@ -956,6 +957,7 @@ input SongSubscriptionWhereInput {
 
 input SongUpdateInput {
   name: String
+  originalArtist: String
   notes: String
   tracks: TrackUpdateManyWithoutSongInput
 }
@@ -970,6 +972,7 @@ input SongUpdateOneWithoutTracksInput {
 
 input SongUpdateWithoutTracksDataInput {
   name: String
+  originalArtist: String
   notes: String
 }
 
@@ -1067,6 +1070,46 @@ input SongWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  originalArtist: String
+
+  """All values that are not equal to given value."""
+  originalArtist_not: String
+
+  """All values that are contained in given list."""
+  originalArtist_in: [String!]
+
+  """All values that are not contained in given list."""
+  originalArtist_not_in: [String!]
+
+  """All values less than the given value."""
+  originalArtist_lt: String
+
+  """All values less than or equal the given value."""
+  originalArtist_lte: String
+
+  """All values greater than the given value."""
+  originalArtist_gt: String
+
+  """All values greater than or equal the given value."""
+  originalArtist_gte: String
+
+  """All values containing the given string."""
+  originalArtist_contains: String
+
+  """All values not containing the given string."""
+  originalArtist_not_contains: String
+
+  """All values starting with the given string."""
+  originalArtist_starts_with: String
+
+  """All values not starting with the given string."""
+  originalArtist_not_starts_with: String
+
+  """All values ending with the given string."""
+  originalArtist_ends_with: String
+
+  """All values not ending with the given string."""
+  originalArtist_not_ends_with: String
   notes: String
 
   """All values that are not equal to given value."""
@@ -1122,14 +1165,17 @@ type Subscription {
   set(where: SetSubscriptionWhereInput): SetSubscriptionPayload
   track(where: TrackSubscriptionWhereInput): TrackSubscriptionPayload
   venue(where: VenueSubscriptionWhereInput): VenueSubscriptionPayload
+  video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
   show(where: ShowSubscriptionWhereInput): ShowSubscriptionPayload
 }
 
 type Track implements Node {
   id: ID!
+  notes: String
+  segue: Boolean
   song(where: SongWhereInput): Song!
   set(where: SetWhereInput): Set!
-  notes: String
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
 }
 
 """A connection to a list of items."""
@@ -1144,8 +1190,10 @@ type TrackConnection {
 
 input TrackCreateInput {
   notes: String
+  segue: Boolean
   song: SongCreateOneWithoutTracksInput!
   set: SetCreateOneWithoutTracksInput!
+  videos: VideoCreateManyWithoutTracksInput
 }
 
 input TrackCreateManyWithoutSetInput {
@@ -1158,13 +1206,29 @@ input TrackCreateManyWithoutSongInput {
   connect: [TrackWhereUniqueInput!]
 }
 
+input TrackCreateManyWithoutVideosInput {
+  create: [TrackCreateWithoutVideosInput!]
+  connect: [TrackWhereUniqueInput!]
+}
+
 input TrackCreateWithoutSetInput {
   notes: String
+  segue: Boolean
   song: SongCreateOneWithoutTracksInput!
+  videos: VideoCreateManyWithoutTracksInput
 }
 
 input TrackCreateWithoutSongInput {
   notes: String
+  segue: Boolean
+  set: SetCreateOneWithoutTracksInput!
+  videos: VideoCreateManyWithoutTracksInput
+}
+
+input TrackCreateWithoutVideosInput {
+  notes: String
+  segue: Boolean
+  song: SongCreateOneWithoutTracksInput!
   set: SetCreateOneWithoutTracksInput!
 }
 
@@ -1182,6 +1246,8 @@ enum TrackOrderByInput {
   id_DESC
   notes_ASC
   notes_DESC
+  segue_ASC
+  segue_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1191,6 +1257,7 @@ enum TrackOrderByInput {
 type TrackPreviousValues {
   id: ID!
   notes: String
+  segue: Boolean
 }
 
 type TrackSubscriptionPayload {
@@ -1234,8 +1301,10 @@ input TrackSubscriptionWhereInput {
 
 input TrackUpdateInput {
   notes: String
+  segue: Boolean
   song: SongUpdateOneWithoutTracksInput
   set: SetUpdateOneWithoutTracksInput
+  videos: VideoUpdateManyWithoutTracksInput
 }
 
 input TrackUpdateManyWithoutSetInput {
@@ -1256,13 +1325,33 @@ input TrackUpdateManyWithoutSongInput {
   upsert: [TrackUpsertWithWhereUniqueWithoutSongInput!]
 }
 
+input TrackUpdateManyWithoutVideosInput {
+  create: [TrackCreateWithoutVideosInput!]
+  connect: [TrackWhereUniqueInput!]
+  disconnect: [TrackWhereUniqueInput!]
+  delete: [TrackWhereUniqueInput!]
+  update: [TrackUpdateWithWhereUniqueWithoutVideosInput!]
+  upsert: [TrackUpsertWithWhereUniqueWithoutVideosInput!]
+}
+
 input TrackUpdateWithoutSetDataInput {
   notes: String
+  segue: Boolean
   song: SongUpdateOneWithoutTracksInput
+  videos: VideoUpdateManyWithoutTracksInput
 }
 
 input TrackUpdateWithoutSongDataInput {
   notes: String
+  segue: Boolean
+  set: SetUpdateOneWithoutTracksInput
+  videos: VideoUpdateManyWithoutTracksInput
+}
+
+input TrackUpdateWithoutVideosDataInput {
+  notes: String
+  segue: Boolean
+  song: SongUpdateOneWithoutTracksInput
   set: SetUpdateOneWithoutTracksInput
 }
 
@@ -1276,6 +1365,11 @@ input TrackUpdateWithWhereUniqueWithoutSongInput {
   data: TrackUpdateWithoutSongDataInput!
 }
 
+input TrackUpdateWithWhereUniqueWithoutVideosInput {
+  where: TrackWhereUniqueInput!
+  data: TrackUpdateWithoutVideosDataInput!
+}
+
 input TrackUpsertWithWhereUniqueWithoutSetInput {
   where: TrackWhereUniqueInput!
   update: TrackUpdateWithoutSetDataInput!
@@ -1286,6 +1380,12 @@ input TrackUpsertWithWhereUniqueWithoutSongInput {
   where: TrackWhereUniqueInput!
   update: TrackUpdateWithoutSongDataInput!
   create: TrackCreateWithoutSongInput!
+}
+
+input TrackUpsertWithWhereUniqueWithoutVideosInput {
+  where: TrackWhereUniqueInput!
+  update: TrackUpdateWithoutVideosDataInput!
+  create: TrackCreateWithoutVideosInput!
 }
 
 input TrackWhereInput {
@@ -1377,8 +1477,15 @@ input TrackWhereInput {
 
   """All values not ending with the given string."""
   notes_not_ends_with: String
+  segue: Boolean
+
+  """All values that are not equal to given value."""
+  segue_not: Boolean
   song: SongWhereInput
   set: SetWhereInput
+  videos_every: VideoWhereInput
+  videos_some: VideoWhereInput
+  videos_none: VideoWhereInput
 }
 
 input TrackWhereUniqueInput {
@@ -1387,7 +1494,7 @@ input TrackWhereUniqueInput {
 
 type User implements Node {
   id: ID!
-  name: String!
+  name: String
   email: String!
   password: String!
   shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show!]
@@ -1406,7 +1513,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  name: String!
+  name: String
   email: String!
   password: String!
   shows: ShowCreateManyInput
@@ -1438,7 +1545,7 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  name: String!
+  name: String
   email: String!
   password: String!
   updatedAt: DateTime!
@@ -2021,5 +2128,226 @@ input VenueWhereInput {
 }
 
 input VenueWhereUniqueInput {
+  id: ID
+}
+
+type Video implements Node {
+  id: ID!
+  videoId: String!
+  tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track!]
+}
+
+"""A connection to a list of items."""
+type VideoConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [VideoEdge]!
+  aggregate: AggregateVideo!
+}
+
+input VideoCreateInput {
+  videoId: String!
+  tracks: TrackCreateManyWithoutVideosInput
+}
+
+input VideoCreateManyWithoutTracksInput {
+  create: [VideoCreateWithoutTracksInput!]
+  connect: [VideoWhereUniqueInput!]
+}
+
+input VideoCreateWithoutTracksInput {
+  videoId: String!
+}
+
+"""An edge in a connection."""
+type VideoEdge {
+  """The item at the end of the edge."""
+  node: Video!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum VideoOrderByInput {
+  id_ASC
+  id_DESC
+  videoId_ASC
+  videoId_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type VideoPreviousValues {
+  id: ID!
+  videoId: String!
+}
+
+type VideoSubscriptionPayload {
+  mutation: MutationType!
+  node: Video
+  updatedFields: [String!]
+  previousValues: VideoPreviousValues
+}
+
+input VideoSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [VideoSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [VideoSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [VideoSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: VideoWhereInput
+}
+
+input VideoUpdateInput {
+  videoId: String
+  tracks: TrackUpdateManyWithoutVideosInput
+}
+
+input VideoUpdateManyWithoutTracksInput {
+  create: [VideoCreateWithoutTracksInput!]
+  connect: [VideoWhereUniqueInput!]
+  disconnect: [VideoWhereUniqueInput!]
+  delete: [VideoWhereUniqueInput!]
+  update: [VideoUpdateWithWhereUniqueWithoutTracksInput!]
+  upsert: [VideoUpsertWithWhereUniqueWithoutTracksInput!]
+}
+
+input VideoUpdateWithoutTracksDataInput {
+  videoId: String
+}
+
+input VideoUpdateWithWhereUniqueWithoutTracksInput {
+  where: VideoWhereUniqueInput!
+  data: VideoUpdateWithoutTracksDataInput!
+}
+
+input VideoUpsertWithWhereUniqueWithoutTracksInput {
+  where: VideoWhereUniqueInput!
+  update: VideoUpdateWithoutTracksDataInput!
+  create: VideoCreateWithoutTracksInput!
+}
+
+input VideoWhereInput {
+  """Logical AND on all given filters."""
+  AND: [VideoWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [VideoWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [VideoWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  videoId: String
+
+  """All values that are not equal to given value."""
+  videoId_not: String
+
+  """All values that are contained in given list."""
+  videoId_in: [String!]
+
+  """All values that are not contained in given list."""
+  videoId_not_in: [String!]
+
+  """All values less than the given value."""
+  videoId_lt: String
+
+  """All values less than or equal the given value."""
+  videoId_lte: String
+
+  """All values greater than the given value."""
+  videoId_gt: String
+
+  """All values greater than or equal the given value."""
+  videoId_gte: String
+
+  """All values containing the given string."""
+  videoId_contains: String
+
+  """All values not containing the given string."""
+  videoId_not_contains: String
+
+  """All values starting with the given string."""
+  videoId_starts_with: String
+
+  """All values not starting with the given string."""
+  videoId_not_starts_with: String
+
+  """All values ending with the given string."""
+  videoId_ends_with: String
+
+  """All values not ending with the given string."""
+  videoId_not_ends_with: String
+  tracks_every: TrackWhereInput
+  tracks_some: TrackWhereInput
+  tracks_none: TrackWhereInput
+}
+
+input VideoWhereUniqueInput {
   id: ID
 }

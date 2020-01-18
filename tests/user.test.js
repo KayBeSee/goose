@@ -71,6 +71,3 @@ test('should fetch user profile', async () => {
   expect(data.me.name).toBe(userOne.user.name)
   expect(data.me.email).toBe(userOne.user.email)
 });
-
-// TODO
-// - add show to user

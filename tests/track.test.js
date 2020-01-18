@@ -2,6 +2,7 @@ import 'cross-fetch/polyfill'
 import seedDatabase from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createSong, createTrack } from './utils/operations'
+import { showOne } from './utils/seedDatabase-entities';
 
 const client = getClient();
 
@@ -11,6 +12,7 @@ test('Should create a new track associated with a song', async () => {
   const songVariables = {
     data: {
       name: "Butter Rum",
+      originalArtist: "Goose",
       notes: "Released as single in a foreign place, with an ice cold mojito"
     }
   }
@@ -30,7 +32,12 @@ test('Should create a new track associated with a song', async () => {
       },
       set: {
         create: {
-          name: "SET_1"
+          name: "SET_1",
+          show: {
+            connect: {
+              id: showOne.show.id
+            }
+          }
         }
       }
     }

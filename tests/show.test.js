@@ -11,7 +11,7 @@ beforeEach(seedDatabase);
 test('Should create a new show', async () => {
   const variables = {
     data: {
-      date: "4/20/2019",
+      date: "2019-04-20",
       venue: {
         create: {
           name: 'Mission Ballroom',

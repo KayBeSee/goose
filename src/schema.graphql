@@ -1,9 +1,20 @@
-# import UserCreateInput, UserOrderByInput, TrackCreateInput, SongCreateInput from "./generated/prisma.graphql"
+# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput from "./generated/prisma.graphql"
 
 type Query {
-  users(query: String, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
+  users(where: UserWhereInput, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
+  user(where: UserWhereUniqueInput): User
+  songs(where: SongWhereInput, first: Int, skip: Int, after:String, orderBy: SongOrderByInput): [Song!]
+  song(where: SongWhereUniqueInput!): Song
+  shows(where: ShowWhereInput, first: Int, skip: Int, after:String, orderBy: ShowOrderByInput): [Show!]!
+  show(where: ShowWhereUniqueInput!): Show
+  sets(where: SetWhereInput, first: Int, skip: Int, after:String, orderBy: SetOrderByInput): [Set!]!
+  tracks(where: TrackWhereInput, first: Int, skip: Int, after:String, orderBy: TrackOrderByInput): [Track!]!
+  track(where: TrackWhereUniqueInput!): Track
+  venues(where: VenueWhereInput, first: Int, skip: Int, after:String, orderBy: VenueOrderByInput): [Venue!]!
+  venue(where: VenueWhereUniqueInput!): Venue
+  videos(where: VideoWhereInput, first: Int, skip: Int, after:String, orderBy: VideoOrderByInput): [Video!]!
+  video(where: VideoWhereUniqueInput!): Video
   me: User!
-  shows(query: String, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [Show!]!
 }
 
 type Mutation {
@@ -57,6 +68,7 @@ type User {
 type Song {
   id: ID!
   name: String!
+  originalArtist: String!
   notes: String
   tracks: [Track!]!
   updatedAt: String!
@@ -65,18 +77,20 @@ type Song {
 
 type Track {
   id: ID!
+  notes: String
+  segue: Boolean
   song: Song!
   # show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  # set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  notes: String
+  set: Set!
+  videos: [Video!]!
 }
 
 type Show {
   id: ID!
-  date: String!
+  date: String
   notes: String
-  venue: Venue!
-  setlist: [Set!]!
+  venue: Venue
+  setlist: [Set!]
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
@@ -94,6 +108,12 @@ type Set {
   name: SetNumber
   tracks: [Track!]
   show: Show!
+}
+
+type Video {
+  id: ID!
+  videoId: String!
+  tracks: [Track!]!
 }
 
 enum MutationType {

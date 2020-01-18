@@ -3,6 +3,7 @@ import prisma from '../src/prisma'
 import seedDatabase, { songTwo } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createSong, createTrack } from './utils/operations'
+import { showOne } from './utils/seedDatabase-entities'
 
 const client = getClient();
 
@@ -12,6 +13,7 @@ test('Should create a new song', async () => {
   const variables = {
     data: {
       name: "Butter Rum",
+      originalArtist: "Goose",
       notes: "Released as single in a foreign place, with an ice cold mojito"
     }
   }
@@ -39,7 +41,12 @@ test('should maintain a list of tracks', async () => {
       },
       set: {
         create: {
-          name: "SET_1"
+          name: "SET_1",
+          show: {
+            connect: {
+              id: showOne.show.id
+            }
+          }
         }
       }
     }
@@ -61,5 +68,5 @@ test('should maintain a list of tracks', async () => {
     }
   }, '{ id name notes tracks { id } }')
 
-  expect(song.tracks.length).toBe(2)
+  expect(song.tracks.length).toBe(3)
 });

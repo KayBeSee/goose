@@ -16,7 +16,8 @@ const getClient = (jwt, httpURL = 'http://localhost:4000', websocketURL = 'ws://
     if (jwt) {
       operation.setContext({
         headers: {
-          Authorization: `Bearer ${jwt}`
+          Authorization: jwt
+          // Authorization: `Bearer ${jwt}` put back in when we switch to using cookies!
         }
       })
     }

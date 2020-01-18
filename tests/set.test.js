@@ -1,8 +1,9 @@
 import 'cross-fetch/polyfill'
 import prisma from '../src/prisma'
-import seedDatabase, { songTwo, trackOne, trackTwo, songOne } from './utils/seedDatabase'
+import seedDatabase from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createSet, createTrack } from './utils/operations'
+import { songOne, songTwo, trackOne, showOne } from './utils/seedDatabase-entities'
 
 const client = getClient();
 
@@ -12,6 +13,11 @@ test('Should create a new set', async () => {
   const variables = {
     data: {
       name: "SET_1",
+      show: {
+        connect: {
+          id: showOne.show.id
+        }
+      },
       tracks: {
         connect: {
           id: trackOne.track.id
@@ -38,7 +44,12 @@ test('should maintain a list of tracks', async () => {
     mutation: createSet,
     variables: {
       data: {
-        name: "SET_1"
+        name: "SET_1",
+        show: {
+          connect: {
+            id: showOne.show.id
+          }
+        }
       }
     }
   })

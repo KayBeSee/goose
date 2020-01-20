@@ -48,6 +48,8 @@ export const Mutation = {
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+    console.log('userId: ', userId);
+    console.log('args: ', args.data);
 
     if (typeof args.data.password === 'string') {
       args.data.password = await hashPassword(args.data.password);

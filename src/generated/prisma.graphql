@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Fri Jan 17 2020 13:52:17 GMT-0700 (Mountain Standard Time)
+# source: http://localhost:4466/default/scrape
+# timestamp: Mon Jan 20 2020 14:52:45 GMT-0700 (Mountain Standard Time)
 
 type AggregateSet {
   count: Int!
@@ -45,46 +45,46 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createSong(data: SongCreateInput!): Song!
+  createShow(data: ShowCreateInput!): Show!
   createSet(data: SetCreateInput!): Set!
   createTrack(data: TrackCreateInput!): Track!
   createVenue(data: VenueCreateInput!): Venue!
   createVideo(data: VideoCreateInput!): Video!
-  createShow(data: ShowCreateInput!): Show!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
+  updateShow(data: ShowUpdateInput!, where: ShowWhereUniqueInput!): Show
   updateSet(data: SetUpdateInput!, where: SetWhereUniqueInput!): Set
   updateTrack(data: TrackUpdateInput!, where: TrackWhereUniqueInput!): Track
   updateVenue(data: VenueUpdateInput!, where: VenueWhereUniqueInput!): Venue
   updateVideo(data: VideoUpdateInput!, where: VideoWhereUniqueInput!): Video
-  updateShow(data: ShowUpdateInput!, where: ShowWhereUniqueInput!): Show
   deleteUser(where: UserWhereUniqueInput!): User
   deleteSong(where: SongWhereUniqueInput!): Song
+  deleteShow(where: ShowWhereUniqueInput!): Show
   deleteSet(where: SetWhereUniqueInput!): Set
   deleteTrack(where: TrackWhereUniqueInput!): Track
   deleteVenue(where: VenueWhereUniqueInput!): Venue
   deleteVideo(where: VideoWhereUniqueInput!): Video
-  deleteShow(where: ShowWhereUniqueInput!): Show
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
+  upsertShow(where: ShowWhereUniqueInput!, create: ShowCreateInput!, update: ShowUpdateInput!): Show!
   upsertSet(where: SetWhereUniqueInput!, create: SetCreateInput!, update: SetUpdateInput!): Set!
   upsertTrack(where: TrackWhereUniqueInput!, create: TrackCreateInput!, update: TrackUpdateInput!): Track!
   upsertVenue(where: VenueWhereUniqueInput!, create: VenueCreateInput!, update: VenueUpdateInput!): Venue!
   upsertVideo(where: VideoWhereUniqueInput!, create: VideoCreateInput!, update: VideoUpdateInput!): Video!
-  upsertShow(where: ShowWhereUniqueInput!, create: ShowCreateInput!, update: ShowUpdateInput!): Show!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManySongs(data: SongUpdateInput!, where: SongWhereInput): BatchPayload!
+  updateManyShows(data: ShowUpdateInput!, where: ShowWhereInput): BatchPayload!
   updateManySets(data: SetUpdateInput!, where: SetWhereInput): BatchPayload!
   updateManyTracks(data: TrackUpdateInput!, where: TrackWhereInput): BatchPayload!
   updateManyVenues(data: VenueUpdateInput!, where: VenueWhereInput): BatchPayload!
   updateManyVideos(data: VideoUpdateInput!, where: VideoWhereInput): BatchPayload!
-  updateManyShows(data: ShowUpdateInput!, where: ShowWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySongs(where: SongWhereInput): BatchPayload!
+  deleteManyShows(where: ShowWhereInput): BatchPayload!
   deleteManySets(where: SetWhereInput): BatchPayload!
   deleteManyTracks(where: TrackWhereInput): BatchPayload!
   deleteManyVenues(where: VenueWhereInput): BatchPayload!
   deleteManyVideos(where: VideoWhereInput): BatchPayload!
-  deleteManyShows(where: ShowWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -117,25 +117,25 @@ type PageInfo {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
+  shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show]!
   sets(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set]!
   tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track]!
   venues(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Venue]!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video]!
-  shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show]!
   user(where: UserWhereUniqueInput!): User
   song(where: SongWhereUniqueInput!): Song
+  show(where: ShowWhereUniqueInput!): Show
   set(where: SetWhereUniqueInput!): Set
   track(where: TrackWhereUniqueInput!): Track
   venue(where: VenueWhereUniqueInput!): Venue
   video(where: VideoWhereUniqueInput!): Video
-  show(where: ShowWhereUniqueInput!): Show
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
+  showsConnection(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ShowConnection!
   setsConnection(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SetConnection!
   tracksConnection(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TrackConnection!
   venuesConnection(where: VenueWhereInput, orderBy: VenueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VenueConnection!
   videosConnection(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VideoConnection!
-  showsConnection(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ShowConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -200,8 +200,12 @@ enum SetNumber {
   SET_1
   SET_2
   SET_3
-  ENCORE_1
+  SET_4
+  SET_5
+  SET_6
+  ENCORE
   ENCORE_2
+  ENCORE_3
 }
 
 enum SetOrderByInput {
@@ -383,6 +387,7 @@ type Show implements Node {
   notes: String
   venue(where: VenueWhereInput): Venue!
   setlist(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set!]
+  attendees(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
@@ -406,10 +411,11 @@ input ShowCreateInput {
   bandcampAlbumId: String
   venue: VenueCreateOneWithoutShowsInput!
   setlist: SetCreateManyWithoutShowInput
+  attendees: UserCreateManyWithoutShowsInput
 }
 
-input ShowCreateManyInput {
-  create: [ShowCreateInput!]
+input ShowCreateManyWithoutAttendeesInput {
+  create: [ShowCreateWithoutAttendeesInput!]
   connect: [ShowWhereUniqueInput!]
 }
 
@@ -423,6 +429,16 @@ input ShowCreateOneWithoutSetlistInput {
   connect: ShowWhereUniqueInput
 }
 
+input ShowCreateWithoutAttendeesInput {
+  date: DateTime
+  notes: String
+  archiveUrl: String
+  nugsNetId: String
+  bandcampAlbumId: String
+  venue: VenueCreateOneWithoutShowsInput!
+  setlist: SetCreateManyWithoutShowInput
+}
+
 input ShowCreateWithoutSetlistInput {
   date: DateTime
   notes: String
@@ -430,6 +446,7 @@ input ShowCreateWithoutSetlistInput {
   nugsNetId: String
   bandcampAlbumId: String
   venue: VenueCreateOneWithoutShowsInput!
+  attendees: UserCreateManyWithoutShowsInput
 }
 
 input ShowCreateWithoutVenueInput {
@@ -439,6 +456,7 @@ input ShowCreateWithoutVenueInput {
   nugsNetId: String
   bandcampAlbumId: String
   setlist: SetCreateManyWithoutShowInput
+  attendees: UserCreateManyWithoutShowsInput
 }
 
 """An edge in a connection."""
@@ -517,16 +535,6 @@ input ShowSubscriptionWhereInput {
   node: ShowWhereInput
 }
 
-input ShowUpdateDataInput {
-  date: DateTime
-  notes: String
-  archiveUrl: String
-  nugsNetId: String
-  bandcampAlbumId: String
-  venue: VenueUpdateOneWithoutShowsInput
-  setlist: SetUpdateManyWithoutShowInput
-}
-
 input ShowUpdateInput {
   date: DateTime
   notes: String
@@ -535,15 +543,16 @@ input ShowUpdateInput {
   bandcampAlbumId: String
   venue: VenueUpdateOneWithoutShowsInput
   setlist: SetUpdateManyWithoutShowInput
+  attendees: UserUpdateManyWithoutShowsInput
 }
 
-input ShowUpdateManyInput {
-  create: [ShowCreateInput!]
+input ShowUpdateManyWithoutAttendeesInput {
+  create: [ShowCreateWithoutAttendeesInput!]
   connect: [ShowWhereUniqueInput!]
   disconnect: [ShowWhereUniqueInput!]
   delete: [ShowWhereUniqueInput!]
-  update: [ShowUpdateWithWhereUniqueNestedInput!]
-  upsert: [ShowUpsertWithWhereUniqueNestedInput!]
+  update: [ShowUpdateWithWhereUniqueWithoutAttendeesInput!]
+  upsert: [ShowUpsertWithWhereUniqueWithoutAttendeesInput!]
 }
 
 input ShowUpdateManyWithoutVenueInput {
@@ -563,6 +572,16 @@ input ShowUpdateOneWithoutSetlistInput {
   upsert: ShowUpsertWithoutSetlistInput
 }
 
+input ShowUpdateWithoutAttendeesDataInput {
+  date: DateTime
+  notes: String
+  archiveUrl: String
+  nugsNetId: String
+  bandcampAlbumId: String
+  venue: VenueUpdateOneWithoutShowsInput
+  setlist: SetUpdateManyWithoutShowInput
+}
+
 input ShowUpdateWithoutSetlistDataInput {
   date: DateTime
   notes: String
@@ -570,6 +589,7 @@ input ShowUpdateWithoutSetlistDataInput {
   nugsNetId: String
   bandcampAlbumId: String
   venue: VenueUpdateOneWithoutShowsInput
+  attendees: UserUpdateManyWithoutShowsInput
 }
 
 input ShowUpdateWithoutVenueDataInput {
@@ -579,11 +599,12 @@ input ShowUpdateWithoutVenueDataInput {
   nugsNetId: String
   bandcampAlbumId: String
   setlist: SetUpdateManyWithoutShowInput
+  attendees: UserUpdateManyWithoutShowsInput
 }
 
-input ShowUpdateWithWhereUniqueNestedInput {
+input ShowUpdateWithWhereUniqueWithoutAttendeesInput {
   where: ShowWhereUniqueInput!
-  data: ShowUpdateDataInput!
+  data: ShowUpdateWithoutAttendeesDataInput!
 }
 
 input ShowUpdateWithWhereUniqueWithoutVenueInput {
@@ -596,10 +617,10 @@ input ShowUpsertWithoutSetlistInput {
   create: ShowCreateWithoutSetlistInput!
 }
 
-input ShowUpsertWithWhereUniqueNestedInput {
+input ShowUpsertWithWhereUniqueWithoutAttendeesInput {
   where: ShowWhereUniqueInput!
-  update: ShowUpdateDataInput!
-  create: ShowCreateInput!
+  update: ShowUpdateWithoutAttendeesDataInput!
+  create: ShowCreateWithoutAttendeesInput!
 }
 
 input ShowUpsertWithWhereUniqueWithoutVenueInput {
@@ -843,6 +864,9 @@ input ShowWhereInput {
   setlist_every: SetWhereInput
   setlist_some: SetWhereInput
   setlist_none: SetWhereInput
+  attendees_every: UserWhereInput
+  attendees_some: UserWhereInput
+  attendees_none: UserWhereInput
 }
 
 input ShowWhereUniqueInput {
@@ -1162,11 +1186,11 @@ input SongWhereUniqueInput {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
+  show(where: ShowSubscriptionWhereInput): ShowSubscriptionPayload
   set(where: SetSubscriptionWhereInput): SetSubscriptionPayload
   track(where: TrackSubscriptionWhereInput): TrackSubscriptionPayload
   venue(where: VenueSubscriptionWhereInput): VenueSubscriptionPayload
   video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
-  show(where: ShowSubscriptionWhereInput): ShowSubscriptionPayload
 }
 
 type Track implements Node {
@@ -1494,7 +1518,7 @@ input TrackWhereUniqueInput {
 
 type User implements Node {
   id: ID!
-  name: String
+  username: String
   email: String!
   password: String!
   shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show!]
@@ -1513,10 +1537,21 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  name: String
+  username: String
   email: String!
   password: String!
-  shows: ShowCreateManyInput
+  shows: ShowCreateManyWithoutAttendeesInput
+}
+
+input UserCreateManyWithoutShowsInput {
+  create: [UserCreateWithoutShowsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateWithoutShowsInput {
+  username: String
+  email: String!
+  password: String!
 }
 
 """An edge in a connection."""
@@ -1531,8 +1566,8 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  username_ASC
+  username_DESC
   email_ASC
   email_DESC
   password_ASC
@@ -1545,7 +1580,7 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  name: String
+  username: String
   email: String!
   password: String!
   updatedAt: DateTime!
@@ -1592,10 +1627,36 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
-  name: String
+  username: String
   email: String
   password: String
-  shows: ShowUpdateManyInput
+  shows: ShowUpdateManyWithoutAttendeesInput
+}
+
+input UserUpdateManyWithoutShowsInput {
+  create: [UserCreateWithoutShowsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutShowsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutShowsInput!]
+}
+
+input UserUpdateWithoutShowsDataInput {
+  username: String
+  email: String
+  password: String
+}
+
+input UserUpdateWithWhereUniqueWithoutShowsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutShowsDataInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutShowsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutShowsDataInput!
+  create: UserCreateWithoutShowsInput!
 }
 
 input UserWhereInput {
@@ -1647,46 +1708,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  name: String
+  username: String
 
   """All values that are not equal to given value."""
-  name_not: String
+  username_not: String
 
   """All values that are contained in given list."""
-  name_in: [String!]
+  username_in: [String!]
 
   """All values that are not contained in given list."""
-  name_not_in: [String!]
+  username_not_in: [String!]
 
   """All values less than the given value."""
-  name_lt: String
+  username_lt: String
 
   """All values less than or equal the given value."""
-  name_lte: String
+  username_lte: String
 
   """All values greater than the given value."""
-  name_gt: String
+  username_gt: String
 
   """All values greater than or equal the given value."""
-  name_gte: String
+  username_gte: String
 
   """All values containing the given string."""
-  name_contains: String
+  username_contains: String
 
   """All values not containing the given string."""
-  name_not_contains: String
+  username_not_contains: String
 
   """All values starting with the given string."""
-  name_starts_with: String
+  username_starts_with: String
 
   """All values not starting with the given string."""
-  name_not_starts_with: String
+  username_not_starts_with: String
 
   """All values ending with the given string."""
-  name_ends_with: String
+  username_ends_with: String
 
   """All values not ending with the given string."""
-  name_not_ends_with: String
+  username_not_ends_with: String
   email: String
 
   """All values that are not equal to given value."""
@@ -1824,8 +1885,8 @@ input UserWhereUniqueInput {
 type Venue implements Node {
   id: ID!
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
   shows(where: ShowWhereInput, orderBy: ShowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Show!]
 }
 
@@ -1841,8 +1902,8 @@ type VenueConnection {
 
 input VenueCreateInput {
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
   shows: ShowCreateManyWithoutVenueInput
 }
 
@@ -1853,8 +1914,8 @@ input VenueCreateOneWithoutShowsInput {
 
 input VenueCreateWithoutShowsInput {
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
 }
 
 """An edge in a connection."""
@@ -1884,8 +1945,8 @@ enum VenueOrderByInput {
 type VenuePreviousValues {
   id: ID!
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
 }
 
 type VenueSubscriptionPayload {

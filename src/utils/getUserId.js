@@ -3,9 +3,10 @@ import jwt from 'jsonwebtoken'
 const getUserId = (request, requireAuth = true) => {
   const header = request.request ? request.request.headers.authorization : request.connection.context.Authorization;
   if (header) {
-    const token = header.replace('Bearer ', '');
+    // const token = header.replace('Bearer ', ''); // KBC-TODO: replace when using cookies again
+    const token = header;
     const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET)
-    return decoded.userId;
+    return decoded.id;
   }
 
   if (requireAuth) {

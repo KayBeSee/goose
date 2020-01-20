@@ -30,12 +30,6 @@ const seedDatabase = async () => {
 
   songOne.song = showOne.show.setlist[0].tracks[0].song;
   songTwo.song = showOne.show.setlist[0].tracks[1].song;
-
-  // setOne.input.show.connect.id = showOne.show.id;
-  // setTwo.input.show.connect.id = showOne.show.id;
-
-
-
 }
 
 export { seedDatabase as default, userOne, userTwo, songOne, songTwo, trackOne, trackTwo }

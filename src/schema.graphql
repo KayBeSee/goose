@@ -1,4 +1,4 @@
-# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput from "./generated/prisma.graphql"
+# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
 
 type Query {
   users(where: UserWhereInput, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
@@ -21,7 +21,7 @@ type Mutation {
   createUser(data: UserCreateInput!): AuthPayload!
   login(data: LoginUserInput!): AuthPayload!
   deleteUser: User!
-  updateUser(data: UpdateUserInput!): User!
+  updateUser(data: UserUpdateInput!): User!
 
   createSong(data: SongCreateInput!): Song!
   createTrack(data: TrackCreateInput!): Track!
@@ -38,29 +38,16 @@ type AuthPayload {
   user: User!
 }
 
-input CreateUserInput {
-  name: String!,
-  email: String!
-  password: String!
-}
-
 input LoginUserInput {
   email: String!
   password: String!
 }
 
-input UpdateUserInput {
-  name: String,
-  email: String,
-  password: String
-}
-
 type User {
   id: ID!
-  name: String!
   email: String
   password: String!
-  age: Int
+  shows: [Show!]!
   updatedAt: String!
   createdAt: String!
 }
@@ -91,6 +78,7 @@ type Show {
   notes: String
   venue: Venue
   setlist: [Set!]
+  attendees: [User!]!
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
@@ -99,8 +87,8 @@ type Show {
 type Venue {
   id: ID!
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
 }
 
 type Set {
@@ -126,6 +114,10 @@ enum SetNumber {
   SET_1
   SET_2
   SET_3
-  ENCORE_1
+  SET_4
+  SET_5
+  SET_6
+  ENCORE
   ENCORE_2
+  ENCORE_3
 }

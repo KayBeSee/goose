@@ -3,7 +3,7 @@ type User {
   username: String
   email: String! @unique
   password: String!
-  shows: [Show!]!
+  shows: [Show!]! @relation(name: "UserToShow", onDelete: SET_NULL)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
@@ -23,6 +23,7 @@ type Show {
   notes: String
   venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
   setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)
+  attendees: [User!]! @relation(name: "UserToShow", onDelete: SET_NULL)
   # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
   archiveUrl: String
   nugsNetId: String
@@ -49,8 +50,8 @@ type Track {
 type Venue {
   id: ID! @unique @id
   name: String!
-  city: String!
-  state: String!
+  city: String
+  state: String
   shows: [Show!]! @relation(name: "VenueToShow", onDelete: SET_NULL)
 }
 
@@ -71,6 +72,10 @@ enum SetNumber {
   SET_1
   SET_2
   SET_3
-  ENCORE_1
+  SET_4
+  SET_5
+  SET_6
+  ENCORE
   ENCORE_2
+  ENCORE_3
 }

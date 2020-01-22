@@ -55,9 +55,25 @@ export const Query = {
     return await prisma.query.songs(opArgs, info);
   },
   async song(parent, args, { prisma }, info) {
-    return await prisma.query.song(args, info);
+    const opArgs = {
+      where: args.where,
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy
+    };
+    
+    return await prisma.query.song(opArgs, info);
   },
   async track(parent, args, { prisma }, info) {
-    return await prisma.query.track(args, info);
+    const opArgs = {
+      where: args.where,
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy
+    };
+
+    return await prisma.query.track(opArgs, info);
   }
 };

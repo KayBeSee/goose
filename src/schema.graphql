@@ -1,15 +1,15 @@
-# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
+# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput,VenueOrderByInput, TrackOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
 
 type Query {
   users(where: UserWhereInput, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
   user(where: UserWhereUniqueInput): User
   songs(where: SongWhereInput, first: Int, skip: Int, after:String, orderBy: SongOrderByInput): [Song!]
-  song(where: SongWhereUniqueInput!): Song
+  song(where: SongWhereUniqueInput!, first: Int, skip: Int, after:String, orderBy: SongOrderByInput): Song
   shows(where: ShowWhereInput, first: Int, skip: Int, after:String, orderBy: ShowOrderByInput): [Show!]!
-  show(where: ShowWhereUniqueInput!): Show
+  show(where: ShowWhereUniqueInput!, first: Int, skip: Int, after:String, orderBy: ShowOrderByInput): Show
   sets(where: SetWhereInput, first: Int, skip: Int, after:String, orderBy: SetOrderByInput): [Set!]!
   tracks(where: TrackWhereInput, first: Int, skip: Int, after:String, orderBy: TrackOrderByInput): [Track!]!
-  track(where: TrackWhereUniqueInput!): Track
+  track(where: TrackWhereUniqueInput!, first: Int, skip: Int, after:String, orderBy: TrackOrderByInput): Track
   venues(where: VenueWhereInput, first: Int, skip: Int, after:String, orderBy: VenueOrderByInput): [Venue!]!
   venue(where: VenueWhereUniqueInput!): Venue
   videos(where: VideoWhereInput, first: Int, skip: Int, after:String, orderBy: VideoOrderByInput): [Video!]!

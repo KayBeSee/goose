@@ -20,6 +20,7 @@ type Song {
 type Show {
   id: ID! @unique @id
   date: DateTime
+  eventName: String
   notes: String
   venue: Venue! @relation(name: "VenueToShow", onDelete: SET_NULL)
   setlist: [Set!]! @relation(name: "SetToShow", onDelete: CASCADE)

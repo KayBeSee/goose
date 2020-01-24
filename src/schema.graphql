@@ -75,6 +75,7 @@ type Track {
 type Show {
   id: ID!
   date: String
+  eventName: String
   notes: String
   venue: Venue
   setlist: [Set!]

@@ -3,14 +3,6 @@ require('@babel/polyfill/noConflict');
 
 var axios = require('axios');
 var prisma = require('../src/prisma').default;
-// var reader = require("readline-sync"); 
-var readline = require('readline-promise').default
-
-const rlp = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: true
-});
 
 const getVenueQuery = async (show) => {
   let venueQuery = {};
@@ -79,23 +71,9 @@ const getSetlistQuery = async (show) => {
       let songQuery = {};
       if(songExists) {
         songQuery.connect = { id: existingSongs[0].id };
-      } else {
-
-        let originalArtist;
-        if(currentSong.footnotes.length > 0) {
-          console.log('hits currentSong.footnotes.length > 0 ')
-          // TODO
-          console.log('show.footnotes: ', show.footnotes);
-          originalArtist = await rlp.questionAsync(`
-            ${currentSong.name} \n
-            ${JSON.stringify(show.footnotes.filter(footnote => footnote.id === currentSong.footnotes[0]))}
-          `)
-          console.log('originalArtist: ', originalArtist);
-        } else {
-          originalArtist = 'Goose';
-        }
-
-       songQuery.create = {
+      } else { 
+        originalArtist = 'Goose';
+        songQuery.create = {
         name: currentSong.name,
         originalArtist: originalArtist
        }
@@ -121,14 +99,15 @@ const startScript = async () => {
   await prisma.mutation.deleteManyShows();
   await prisma.mutation.deleteManyVenues();
 
-    const { data } = await axios.get('https://www.phantasytour.com/api/bands/7465/setlists/paged?page=1&pageSize=100&timespan=past');
-
+  for(var j=1; j < 5; j++) {
+    const { data } = await axios.get(`https://www.phantasytour.com/api/bands/7465/setlists/paged?page=${j}&pageSize=100&timespan=past`);
+  
     for(var i=0; i<data.length; i++) {
       const show = data[i];
-
+  
       const venueQuery = await getVenueQuery(show);
       const setlistQuery = await getSetlistQuery(show);
-
+  
       const showQuery = {
         data: {
           date: show.dateTime,
@@ -136,11 +115,10 @@ const startScript = async () => {
           setlist: setlistQuery
         }
       }
-
+  
       const newShow = await prisma.mutation.createShow(showQuery, '{ id setlist { id name tracks { id song { id name originalArtist } } } }')
     }
-
-  rlp.close();
+  }
 }
 
 startScript();

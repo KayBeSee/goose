@@ -62,7 +62,7 @@ export const Query = {
       after: args.after,
       orderBy: args.orderBy
     };
-    
+
     return await prisma.query.song(opArgs, info);
   },
   async track(parent, args, { prisma }, info) {
@@ -75,5 +75,8 @@ export const Query = {
     };
 
     return await prisma.query.track(opArgs, info);
+  },
+  async venues(parent, args, { prisma }, info) {
+    return await prisma.query.venues();
   }
 };

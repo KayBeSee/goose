@@ -1,5 +1,5 @@
-# source: https://us1.prisma.sh/kevin-mulcrone-5f098f/prisma/dev
-# timestamp: Thu Mar 12 2020 14:47:45 GMT-0600 (Mountain Daylight Time)
+# source: http://localhost:4466
+# timestamp: Tue Mar 17 2020 09:16:45 GMT-0600 (Mountain Daylight Time)
 
 type AggregateSet {
   count: Int!
@@ -71,13 +71,13 @@ type Mutation {
   upsertTrack(where: TrackWhereUniqueInput!, create: TrackCreateInput!, update: TrackUpdateInput!): Track!
   upsertVenue(where: VenueWhereUniqueInput!, create: VenueCreateInput!, update: VenueUpdateInput!): Venue!
   upsertVideo(where: VideoWhereUniqueInput!, create: VideoCreateInput!, update: VideoUpdateInput!): Video!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
-  updateManyShows(data: ShowUpdateManyMutationInput!, where: ShowWhereInput): BatchPayload!
-  updateManySets(data: SetUpdateManyMutationInput!, where: SetWhereInput): BatchPayload!
-  updateManyTracks(data: TrackUpdateManyMutationInput!, where: TrackWhereInput): BatchPayload!
-  updateManyVenues(data: VenueUpdateManyMutationInput!, where: VenueWhereInput): BatchPayload!
-  updateManyVideos(data: VideoUpdateManyMutationInput!, where: VideoWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManySongs(data: SongUpdateInput!, where: SongWhereInput): BatchPayload!
+  updateManyShows(data: ShowUpdateInput!, where: ShowWhereInput): BatchPayload!
+  updateManySets(data: SetUpdateInput!, where: SetWhereInput): BatchPayload!
+  updateManyTracks(data: TrackUpdateInput!, where: TrackWhereInput): BatchPayload!
+  updateManyVenues(data: VenueUpdateInput!, where: VenueWhereInput): BatchPayload!
+  updateManyVideos(data: VideoUpdateInput!, where: VideoWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManySongs(where: SongWhereInput): BatchPayload!
   deleteManyShows(where: ShowWhereInput): BatchPayload!
@@ -148,7 +148,7 @@ type Set implements Node {
   id: ID!
   name: SetNumber
   tracks(where: TrackWhereInput, orderBy: TrackOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Track!]
-  show: Show!
+  show(where: ShowWhereInput): Show!
 }
 
 """A connection to a list of items."""
@@ -162,7 +162,6 @@ type SetConnection {
 }
 
 input SetCreateInput {
-  id: ID
   name: SetNumber
   tracks: TrackCreateManyWithoutSetInput
   show: ShowCreateOneWithoutSetlistInput!
@@ -179,13 +178,11 @@ input SetCreateOneWithoutTracksInput {
 }
 
 input SetCreateWithoutShowInput {
-  id: ID
   name: SetNumber
   tracks: TrackCreateManyWithoutSetInput
 }
 
 input SetCreateWithoutTracksInput {
-  id: ID
   name: SetNumber
   show: ShowCreateOneWithoutSetlistInput!
 }
@@ -216,72 +213,15 @@ enum SetOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type SetPreviousValues {
   id: ID!
   name: SetNumber
-}
-
-input SetScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [SetScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [SetScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [SetScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  name: SetNumber
-
-  """All values that are not equal to given value."""
-  name_not: SetNumber
-
-  """All values that are contained in given list."""
-  name_in: [SetNumber!]
-
-  """All values that are not contained in given list."""
-  name_not_in: [SetNumber!]
 }
 
 type SetSubscriptionPayload {
@@ -326,37 +266,22 @@ input SetSubscriptionWhereInput {
 input SetUpdateInput {
   name: SetNumber
   tracks: TrackUpdateManyWithoutSetInput
-  show: ShowUpdateOneRequiredWithoutSetlistInput
-}
-
-input SetUpdateManyDataInput {
-  name: SetNumber
-}
-
-input SetUpdateManyMutationInput {
-  name: SetNumber
+  show: ShowUpdateOneWithoutSetlistInput
 }
 
 input SetUpdateManyWithoutShowInput {
   create: [SetCreateWithoutShowInput!]
   connect: [SetWhereUniqueInput!]
-  set: [SetWhereUniqueInput!]
   disconnect: [SetWhereUniqueInput!]
   delete: [SetWhereUniqueInput!]
   update: [SetUpdateWithWhereUniqueWithoutShowInput!]
-  updateMany: [SetUpdateManyWithWhereNestedInput!]
-  deleteMany: [SetScalarWhereInput!]
   upsert: [SetUpsertWithWhereUniqueWithoutShowInput!]
 }
 
-input SetUpdateManyWithWhereNestedInput {
-  where: SetScalarWhereInput!
-  data: SetUpdateManyDataInput!
-}
-
-input SetUpdateOneRequiredWithoutTracksInput {
+input SetUpdateOneWithoutTracksInput {
   create: SetCreateWithoutTracksInput
   connect: SetWhereUniqueInput
+  delete: Boolean
   update: SetUpdateWithoutTracksDataInput
   upsert: SetUpsertWithoutTracksInput
 }
@@ -368,7 +293,7 @@ input SetUpdateWithoutShowDataInput {
 
 input SetUpdateWithoutTracksDataInput {
   name: SetNumber
-  show: ShowUpdateOneRequiredWithoutSetlistInput
+  show: ShowUpdateOneWithoutSetlistInput
 }
 
 input SetUpdateWithWhereUniqueWithoutShowInput {
@@ -461,7 +386,7 @@ type Show implements Node {
   date: DateTime
   eventName: String
   notes: String
-  venue: Venue!
+  venue(where: VenueWhereInput): Venue!
   setlist(where: SetWhereInput, orderBy: SetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Set!]
   attendees(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   archiveUrl: String
@@ -480,7 +405,6 @@ type ShowConnection {
 }
 
 input ShowCreateInput {
-  id: ID
   date: DateTime
   eventName: String
   notes: String
@@ -508,7 +432,6 @@ input ShowCreateOneWithoutSetlistInput {
 }
 
 input ShowCreateWithoutAttendeesInput {
-  id: ID
   date: DateTime
   eventName: String
   notes: String
@@ -520,7 +443,6 @@ input ShowCreateWithoutAttendeesInput {
 }
 
 input ShowCreateWithoutSetlistInput {
-  id: ID
   date: DateTime
   eventName: String
   notes: String
@@ -532,7 +454,6 @@ input ShowCreateWithoutSetlistInput {
 }
 
 input ShowCreateWithoutVenueInput {
-  id: ID
   date: DateTime
   eventName: String
   notes: String
@@ -567,6 +488,10 @@ enum ShowOrderByInput {
   nugsNetId_DESC
   bandcampAlbumId_ASC
   bandcampAlbumId_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type ShowPreviousValues {
@@ -577,279 +502,6 @@ type ShowPreviousValues {
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
-}
-
-input ShowScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ShowScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ShowScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ShowScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  date: DateTime
-
-  """All values that are not equal to given value."""
-  date_not: DateTime
-
-  """All values that are contained in given list."""
-  date_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  date_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  date_lt: DateTime
-
-  """All values less than or equal the given value."""
-  date_lte: DateTime
-
-  """All values greater than the given value."""
-  date_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  date_gte: DateTime
-  eventName: String
-
-  """All values that are not equal to given value."""
-  eventName_not: String
-
-  """All values that are contained in given list."""
-  eventName_in: [String!]
-
-  """All values that are not contained in given list."""
-  eventName_not_in: [String!]
-
-  """All values less than the given value."""
-  eventName_lt: String
-
-  """All values less than or equal the given value."""
-  eventName_lte: String
-
-  """All values greater than the given value."""
-  eventName_gt: String
-
-  """All values greater than or equal the given value."""
-  eventName_gte: String
-
-  """All values containing the given string."""
-  eventName_contains: String
-
-  """All values not containing the given string."""
-  eventName_not_contains: String
-
-  """All values starting with the given string."""
-  eventName_starts_with: String
-
-  """All values not starting with the given string."""
-  eventName_not_starts_with: String
-
-  """All values ending with the given string."""
-  eventName_ends_with: String
-
-  """All values not ending with the given string."""
-  eventName_not_ends_with: String
-  notes: String
-
-  """All values that are not equal to given value."""
-  notes_not: String
-
-  """All values that are contained in given list."""
-  notes_in: [String!]
-
-  """All values that are not contained in given list."""
-  notes_not_in: [String!]
-
-  """All values less than the given value."""
-  notes_lt: String
-
-  """All values less than or equal the given value."""
-  notes_lte: String
-
-  """All values greater than the given value."""
-  notes_gt: String
-
-  """All values greater than or equal the given value."""
-  notes_gte: String
-
-  """All values containing the given string."""
-  notes_contains: String
-
-  """All values not containing the given string."""
-  notes_not_contains: String
-
-  """All values starting with the given string."""
-  notes_starts_with: String
-
-  """All values not starting with the given string."""
-  notes_not_starts_with: String
-
-  """All values ending with the given string."""
-  notes_ends_with: String
-
-  """All values not ending with the given string."""
-  notes_not_ends_with: String
-  archiveUrl: String
-
-  """All values that are not equal to given value."""
-  archiveUrl_not: String
-
-  """All values that are contained in given list."""
-  archiveUrl_in: [String!]
-
-  """All values that are not contained in given list."""
-  archiveUrl_not_in: [String!]
-
-  """All values less than the given value."""
-  archiveUrl_lt: String
-
-  """All values less than or equal the given value."""
-  archiveUrl_lte: String
-
-  """All values greater than the given value."""
-  archiveUrl_gt: String
-
-  """All values greater than or equal the given value."""
-  archiveUrl_gte: String
-
-  """All values containing the given string."""
-  archiveUrl_contains: String
-
-  """All values not containing the given string."""
-  archiveUrl_not_contains: String
-
-  """All values starting with the given string."""
-  archiveUrl_starts_with: String
-
-  """All values not starting with the given string."""
-  archiveUrl_not_starts_with: String
-
-  """All values ending with the given string."""
-  archiveUrl_ends_with: String
-
-  """All values not ending with the given string."""
-  archiveUrl_not_ends_with: String
-  nugsNetId: String
-
-  """All values that are not equal to given value."""
-  nugsNetId_not: String
-
-  """All values that are contained in given list."""
-  nugsNetId_in: [String!]
-
-  """All values that are not contained in given list."""
-  nugsNetId_not_in: [String!]
-
-  """All values less than the given value."""
-  nugsNetId_lt: String
-
-  """All values less than or equal the given value."""
-  nugsNetId_lte: String
-
-  """All values greater than the given value."""
-  nugsNetId_gt: String
-
-  """All values greater than or equal the given value."""
-  nugsNetId_gte: String
-
-  """All values containing the given string."""
-  nugsNetId_contains: String
-
-  """All values not containing the given string."""
-  nugsNetId_not_contains: String
-
-  """All values starting with the given string."""
-  nugsNetId_starts_with: String
-
-  """All values not starting with the given string."""
-  nugsNetId_not_starts_with: String
-
-  """All values ending with the given string."""
-  nugsNetId_ends_with: String
-
-  """All values not ending with the given string."""
-  nugsNetId_not_ends_with: String
-  bandcampAlbumId: String
-
-  """All values that are not equal to given value."""
-  bandcampAlbumId_not: String
-
-  """All values that are contained in given list."""
-  bandcampAlbumId_in: [String!]
-
-  """All values that are not contained in given list."""
-  bandcampAlbumId_not_in: [String!]
-
-  """All values less than the given value."""
-  bandcampAlbumId_lt: String
-
-  """All values less than or equal the given value."""
-  bandcampAlbumId_lte: String
-
-  """All values greater than the given value."""
-  bandcampAlbumId_gt: String
-
-  """All values greater than or equal the given value."""
-  bandcampAlbumId_gte: String
-
-  """All values containing the given string."""
-  bandcampAlbumId_contains: String
-
-  """All values not containing the given string."""
-  bandcampAlbumId_not_contains: String
-
-  """All values starting with the given string."""
-  bandcampAlbumId_starts_with: String
-
-  """All values not starting with the given string."""
-  bandcampAlbumId_not_starts_with: String
-
-  """All values ending with the given string."""
-  bandcampAlbumId_ends_with: String
-
-  """All values not ending with the given string."""
-  bandcampAlbumId_not_ends_with: String
 }
 
 type ShowSubscriptionPayload {
@@ -898,61 +550,33 @@ input ShowUpdateInput {
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
-  venue: VenueUpdateOneRequiredWithoutShowsInput
+  venue: VenueUpdateOneWithoutShowsInput
   setlist: SetUpdateManyWithoutShowInput
   attendees: UserUpdateManyWithoutShowsInput
-}
-
-input ShowUpdateManyDataInput {
-  date: DateTime
-  eventName: String
-  notes: String
-  archiveUrl: String
-  nugsNetId: String
-  bandcampAlbumId: String
-}
-
-input ShowUpdateManyMutationInput {
-  date: DateTime
-  eventName: String
-  notes: String
-  archiveUrl: String
-  nugsNetId: String
-  bandcampAlbumId: String
 }
 
 input ShowUpdateManyWithoutAttendeesInput {
   create: [ShowCreateWithoutAttendeesInput!]
   connect: [ShowWhereUniqueInput!]
-  set: [ShowWhereUniqueInput!]
   disconnect: [ShowWhereUniqueInput!]
   delete: [ShowWhereUniqueInput!]
   update: [ShowUpdateWithWhereUniqueWithoutAttendeesInput!]
-  updateMany: [ShowUpdateManyWithWhereNestedInput!]
-  deleteMany: [ShowScalarWhereInput!]
   upsert: [ShowUpsertWithWhereUniqueWithoutAttendeesInput!]
 }
 
 input ShowUpdateManyWithoutVenueInput {
   create: [ShowCreateWithoutVenueInput!]
   connect: [ShowWhereUniqueInput!]
-  set: [ShowWhereUniqueInput!]
   disconnect: [ShowWhereUniqueInput!]
   delete: [ShowWhereUniqueInput!]
   update: [ShowUpdateWithWhereUniqueWithoutVenueInput!]
-  updateMany: [ShowUpdateManyWithWhereNestedInput!]
-  deleteMany: [ShowScalarWhereInput!]
   upsert: [ShowUpsertWithWhereUniqueWithoutVenueInput!]
 }
 
-input ShowUpdateManyWithWhereNestedInput {
-  where: ShowScalarWhereInput!
-  data: ShowUpdateManyDataInput!
-}
-
-input ShowUpdateOneRequiredWithoutSetlistInput {
+input ShowUpdateOneWithoutSetlistInput {
   create: ShowCreateWithoutSetlistInput
   connect: ShowWhereUniqueInput
+  delete: Boolean
   update: ShowUpdateWithoutSetlistDataInput
   upsert: ShowUpsertWithoutSetlistInput
 }
@@ -964,7 +588,7 @@ input ShowUpdateWithoutAttendeesDataInput {
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
-  venue: VenueUpdateOneRequiredWithoutShowsInput
+  venue: VenueUpdateOneWithoutShowsInput
   setlist: SetUpdateManyWithoutShowInput
 }
 
@@ -975,7 +599,7 @@ input ShowUpdateWithoutSetlistDataInput {
   archiveUrl: String
   nugsNetId: String
   bandcampAlbumId: String
-  venue: VenueUpdateOneRequiredWithoutShowsInput
+  venue: VenueUpdateOneWithoutShowsInput
   attendees: UserUpdateManyWithoutShowsInput
 }
 
@@ -1320,7 +944,6 @@ type SongConnection {
 }
 
 input SongCreateInput {
-  id: ID
   name: String!
   originalArtist: String!
   notes: String
@@ -1333,7 +956,6 @@ input SongCreateOneWithoutTracksInput {
 }
 
 input SongCreateWithoutTracksInput {
-  id: ID
   name: String!
   originalArtist: String!
   notes: String
@@ -1357,6 +979,10 @@ enum SongOrderByInput {
   originalArtist_DESC
   notes_ASC
   notes_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type SongPreviousValues {
@@ -1412,15 +1038,10 @@ input SongUpdateInput {
   tracks: TrackUpdateManyWithoutSongInput
 }
 
-input SongUpdateManyMutationInput {
-  name: String
-  originalArtist: String
-  notes: String
-}
-
-input SongUpdateOneRequiredWithoutTracksInput {
+input SongUpdateOneWithoutTracksInput {
   create: SongCreateWithoutTracksInput
   connect: SongWhereUniqueInput
+  delete: Boolean
   update: SongUpdateWithoutTracksDataInput
   upsert: SongUpsertWithoutTracksInput
 }
@@ -1628,8 +1249,8 @@ type Track implements Node {
   id: ID!
   notes: String
   segue: Boolean
-  song: Song!
-  set: Set!
+  song(where: SongWhereInput): Song!
+  set(where: SetWhereInput): Set!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
 }
 
@@ -1644,7 +1265,6 @@ type TrackConnection {
 }
 
 input TrackCreateInput {
-  id: ID
   notes: String
   segue: Boolean
   song: SongCreateOneWithoutTracksInput!
@@ -1668,7 +1288,6 @@ input TrackCreateManyWithoutVideosInput {
 }
 
 input TrackCreateWithoutSetInput {
-  id: ID
   notes: String
   segue: Boolean
   song: SongCreateOneWithoutTracksInput!
@@ -1676,7 +1295,6 @@ input TrackCreateWithoutSetInput {
 }
 
 input TrackCreateWithoutSongInput {
-  id: ID
   notes: String
   segue: Boolean
   set: SetCreateOneWithoutTracksInput!
@@ -1684,7 +1302,6 @@ input TrackCreateWithoutSongInput {
 }
 
 input TrackCreateWithoutVideosInput {
-  id: ID
   notes: String
   segue: Boolean
   song: SongCreateOneWithoutTracksInput!
@@ -1707,107 +1324,16 @@ enum TrackOrderByInput {
   notes_DESC
   segue_ASC
   segue_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type TrackPreviousValues {
   id: ID!
   notes: String
   segue: Boolean
-}
-
-input TrackScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TrackScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TrackScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TrackScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  notes: String
-
-  """All values that are not equal to given value."""
-  notes_not: String
-
-  """All values that are contained in given list."""
-  notes_in: [String!]
-
-  """All values that are not contained in given list."""
-  notes_not_in: [String!]
-
-  """All values less than the given value."""
-  notes_lt: String
-
-  """All values less than or equal the given value."""
-  notes_lte: String
-
-  """All values greater than the given value."""
-  notes_gt: String
-
-  """All values greater than or equal the given value."""
-  notes_gte: String
-
-  """All values containing the given string."""
-  notes_contains: String
-
-  """All values not containing the given string."""
-  notes_not_contains: String
-
-  """All values starting with the given string."""
-  notes_starts_with: String
-
-  """All values not starting with the given string."""
-  notes_not_starts_with: String
-
-  """All values ending with the given string."""
-  notes_ends_with: String
-
-  """All values not ending with the given string."""
-  notes_not_ends_with: String
-  segue: Boolean
-
-  """All values that are not equal to given value."""
-  segue_not: Boolean
 }
 
 type TrackSubscriptionPayload {
@@ -1852,81 +1378,57 @@ input TrackSubscriptionWhereInput {
 input TrackUpdateInput {
   notes: String
   segue: Boolean
-  song: SongUpdateOneRequiredWithoutTracksInput
-  set: SetUpdateOneRequiredWithoutTracksInput
+  song: SongUpdateOneWithoutTracksInput
+  set: SetUpdateOneWithoutTracksInput
   videos: VideoUpdateManyWithoutTracksInput
-}
-
-input TrackUpdateManyDataInput {
-  notes: String
-  segue: Boolean
-}
-
-input TrackUpdateManyMutationInput {
-  notes: String
-  segue: Boolean
 }
 
 input TrackUpdateManyWithoutSetInput {
   create: [TrackCreateWithoutSetInput!]
   connect: [TrackWhereUniqueInput!]
-  set: [TrackWhereUniqueInput!]
   disconnect: [TrackWhereUniqueInput!]
   delete: [TrackWhereUniqueInput!]
   update: [TrackUpdateWithWhereUniqueWithoutSetInput!]
-  updateMany: [TrackUpdateManyWithWhereNestedInput!]
-  deleteMany: [TrackScalarWhereInput!]
   upsert: [TrackUpsertWithWhereUniqueWithoutSetInput!]
 }
 
 input TrackUpdateManyWithoutSongInput {
   create: [TrackCreateWithoutSongInput!]
   connect: [TrackWhereUniqueInput!]
-  set: [TrackWhereUniqueInput!]
   disconnect: [TrackWhereUniqueInput!]
   delete: [TrackWhereUniqueInput!]
   update: [TrackUpdateWithWhereUniqueWithoutSongInput!]
-  updateMany: [TrackUpdateManyWithWhereNestedInput!]
-  deleteMany: [TrackScalarWhereInput!]
   upsert: [TrackUpsertWithWhereUniqueWithoutSongInput!]
 }
 
 input TrackUpdateManyWithoutVideosInput {
   create: [TrackCreateWithoutVideosInput!]
   connect: [TrackWhereUniqueInput!]
-  set: [TrackWhereUniqueInput!]
   disconnect: [TrackWhereUniqueInput!]
   delete: [TrackWhereUniqueInput!]
   update: [TrackUpdateWithWhereUniqueWithoutVideosInput!]
-  updateMany: [TrackUpdateManyWithWhereNestedInput!]
-  deleteMany: [TrackScalarWhereInput!]
   upsert: [TrackUpsertWithWhereUniqueWithoutVideosInput!]
-}
-
-input TrackUpdateManyWithWhereNestedInput {
-  where: TrackScalarWhereInput!
-  data: TrackUpdateManyDataInput!
 }
 
 input TrackUpdateWithoutSetDataInput {
   notes: String
   segue: Boolean
-  song: SongUpdateOneRequiredWithoutTracksInput
+  song: SongUpdateOneWithoutTracksInput
   videos: VideoUpdateManyWithoutTracksInput
 }
 
 input TrackUpdateWithoutSongDataInput {
   notes: String
   segue: Boolean
-  set: SetUpdateOneRequiredWithoutTracksInput
+  set: SetUpdateOneWithoutTracksInput
   videos: VideoUpdateManyWithoutTracksInput
 }
 
 input TrackUpdateWithoutVideosDataInput {
   notes: String
   segue: Boolean
-  song: SongUpdateOneRequiredWithoutTracksInput
-  set: SetUpdateOneRequiredWithoutTracksInput
+  song: SongUpdateOneWithoutTracksInput
+  set: SetUpdateOneWithoutTracksInput
 }
 
 input TrackUpdateWithWhereUniqueWithoutSetInput {
@@ -2087,7 +1589,6 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  id: ID
   username: String
   email: String!
   password: String!
@@ -2100,7 +1601,6 @@ input UserCreateManyWithoutShowsInput {
 }
 
 input UserCreateWithoutShowsInput {
-  id: ID
   username: String
   email: String!
   password: String!
@@ -2137,221 +1637,6 @@ type UserPreviousValues {
   password: String!
   updatedAt: DateTime!
   createdAt: DateTime!
-}
-
-input UserScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  username: String
-
-  """All values that are not equal to given value."""
-  username_not: String
-
-  """All values that are contained in given list."""
-  username_in: [String!]
-
-  """All values that are not contained in given list."""
-  username_not_in: [String!]
-
-  """All values less than the given value."""
-  username_lt: String
-
-  """All values less than or equal the given value."""
-  username_lte: String
-
-  """All values greater than the given value."""
-  username_gt: String
-
-  """All values greater than or equal the given value."""
-  username_gte: String
-
-  """All values containing the given string."""
-  username_contains: String
-
-  """All values not containing the given string."""
-  username_not_contains: String
-
-  """All values starting with the given string."""
-  username_starts_with: String
-
-  """All values not starting with the given string."""
-  username_not_starts_with: String
-
-  """All values ending with the given string."""
-  username_ends_with: String
-
-  """All values not ending with the given string."""
-  username_not_ends_with: String
-  email: String
-
-  """All values that are not equal to given value."""
-  email_not: String
-
-  """All values that are contained in given list."""
-  email_in: [String!]
-
-  """All values that are not contained in given list."""
-  email_not_in: [String!]
-
-  """All values less than the given value."""
-  email_lt: String
-
-  """All values less than or equal the given value."""
-  email_lte: String
-
-  """All values greater than the given value."""
-  email_gt: String
-
-  """All values greater than or equal the given value."""
-  email_gte: String
-
-  """All values containing the given string."""
-  email_contains: String
-
-  """All values not containing the given string."""
-  email_not_contains: String
-
-  """All values starting with the given string."""
-  email_starts_with: String
-
-  """All values not starting with the given string."""
-  email_not_starts_with: String
-
-  """All values ending with the given string."""
-  email_ends_with: String
-
-  """All values not ending with the given string."""
-  email_not_ends_with: String
-  password: String
-
-  """All values that are not equal to given value."""
-  password_not: String
-
-  """All values that are contained in given list."""
-  password_in: [String!]
-
-  """All values that are not contained in given list."""
-  password_not_in: [String!]
-
-  """All values less than the given value."""
-  password_lt: String
-
-  """All values less than or equal the given value."""
-  password_lte: String
-
-  """All values greater than the given value."""
-  password_gt: String
-
-  """All values greater than or equal the given value."""
-  password_gte: String
-
-  """All values containing the given string."""
-  password_contains: String
-
-  """All values not containing the given string."""
-  password_not_contains: String
-
-  """All values starting with the given string."""
-  password_starts_with: String
-
-  """All values not starting with the given string."""
-  password_not_starts_with: String
-
-  """All values ending with the given string."""
-  password_ends_with: String
-
-  """All values not ending with the given string."""
-  password_not_ends_with: String
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
 }
 
 type UserSubscriptionPayload {
@@ -2400,33 +1685,13 @@ input UserUpdateInput {
   shows: ShowUpdateManyWithoutAttendeesInput
 }
 
-input UserUpdateManyDataInput {
-  username: String
-  email: String
-  password: String
-}
-
-input UserUpdateManyMutationInput {
-  username: String
-  email: String
-  password: String
-}
-
 input UserUpdateManyWithoutShowsInput {
   create: [UserCreateWithoutShowsInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutShowsInput!]
-  updateMany: [UserUpdateManyWithWhereNestedInput!]
-  deleteMany: [UserScalarWhereInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutShowsInput!]
-}
-
-input UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput!
-  data: UserUpdateManyDataInput!
 }
 
 input UserUpdateWithoutShowsDataInput {
@@ -2688,7 +1953,6 @@ type VenueConnection {
 }
 
 input VenueCreateInput {
-  id: ID
   name: String!
   city: String
   state: String
@@ -2701,7 +1965,6 @@ input VenueCreateOneWithoutShowsInput {
 }
 
 input VenueCreateWithoutShowsInput {
-  id: ID
   name: String!
   city: String
   state: String
@@ -2725,6 +1988,10 @@ enum VenueOrderByInput {
   city_DESC
   state_ASC
   state_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type VenuePreviousValues {
@@ -2780,15 +2047,10 @@ input VenueUpdateInput {
   shows: ShowUpdateManyWithoutVenueInput
 }
 
-input VenueUpdateManyMutationInput {
-  name: String
-  city: String
-  state: String
-}
-
-input VenueUpdateOneRequiredWithoutShowsInput {
+input VenueUpdateOneWithoutShowsInput {
   create: VenueCreateWithoutShowsInput
   connect: VenueWhereUniqueInput
+  delete: Boolean
   update: VenueUpdateWithoutShowsDataInput
   upsert: VenueUpsertWithoutShowsInput
 }
@@ -2999,7 +2261,6 @@ type VideoConnection {
 }
 
 input VideoCreateInput {
-  id: ID
   videoId: String!
   tracks: TrackCreateManyWithoutVideosInput
 }
@@ -3010,7 +2271,6 @@ input VideoCreateManyWithoutTracksInput {
 }
 
 input VideoCreateWithoutTracksInput {
-  id: ID
   videoId: String!
 }
 
@@ -3028,102 +2288,15 @@ enum VideoOrderByInput {
   id_DESC
   videoId_ASC
   videoId_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type VideoPreviousValues {
   id: ID!
   videoId: String!
-}
-
-input VideoScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [VideoScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [VideoScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [VideoScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  videoId: String
-
-  """All values that are not equal to given value."""
-  videoId_not: String
-
-  """All values that are contained in given list."""
-  videoId_in: [String!]
-
-  """All values that are not contained in given list."""
-  videoId_not_in: [String!]
-
-  """All values less than the given value."""
-  videoId_lt: String
-
-  """All values less than or equal the given value."""
-  videoId_lte: String
-
-  """All values greater than the given value."""
-  videoId_gt: String
-
-  """All values greater than or equal the given value."""
-  videoId_gte: String
-
-  """All values containing the given string."""
-  videoId_contains: String
-
-  """All values not containing the given string."""
-  videoId_not_contains: String
-
-  """All values starting with the given string."""
-  videoId_starts_with: String
-
-  """All values not starting with the given string."""
-  videoId_not_starts_with: String
-
-  """All values ending with the given string."""
-  videoId_ends_with: String
-
-  """All values not ending with the given string."""
-  videoId_not_ends_with: String
 }
 
 type VideoSubscriptionPayload {
@@ -3170,29 +2343,13 @@ input VideoUpdateInput {
   tracks: TrackUpdateManyWithoutVideosInput
 }
 
-input VideoUpdateManyDataInput {
-  videoId: String
-}
-
-input VideoUpdateManyMutationInput {
-  videoId: String
-}
-
 input VideoUpdateManyWithoutTracksInput {
   create: [VideoCreateWithoutTracksInput!]
   connect: [VideoWhereUniqueInput!]
-  set: [VideoWhereUniqueInput!]
   disconnect: [VideoWhereUniqueInput!]
   delete: [VideoWhereUniqueInput!]
   update: [VideoUpdateWithWhereUniqueWithoutTracksInput!]
-  updateMany: [VideoUpdateManyWithWhereNestedInput!]
-  deleteMany: [VideoScalarWhereInput!]
   upsert: [VideoUpsertWithWhereUniqueWithoutTracksInput!]
-}
-
-input VideoUpdateManyWithWhereNestedInput {
-  where: VideoScalarWhereInput!
-  data: VideoUpdateManyDataInput!
 }
 
 input VideoUpdateWithoutTracksDataInput {

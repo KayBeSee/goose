@@ -58,7 +58,7 @@ type Venue {
 
 type Video {
   id: ID! @unique @id
-  videoId: String!
+  videoId: String! @unique
   tracks: [Track!]! @relation(name: "VideoToTrack", onDelete: SET_NULL)
 }
 

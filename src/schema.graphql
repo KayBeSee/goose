@@ -1,4 +1,4 @@
-# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput,VenueOrderByInput, TrackOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
+# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, ShowCreateInput, VideoCreateInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput,VenueOrderByInput, TrackOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
 
 type Query {
   users(where: UserWhereInput, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
@@ -27,6 +27,7 @@ type Mutation {
   createTrack(data: TrackCreateInput!): Track!
   createSet(data: SetCreateInput!): Set!
   createShow(data: ShowCreateInput!): Show!
+  createVideo(data: VideoCreateInput!): Video!
 }
 
 # type Subscription {

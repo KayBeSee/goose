@@ -32,7 +32,7 @@ const getVenueQuery = async (show) => {
       venueQuery.connect = {
         id: venues[0].id
       }
-    } catch(e) {
+    } catch (e) {
       console.log('error querying venue: ', e)
     }
   }
@@ -45,7 +45,7 @@ const getSetlistQuery = async (show) => {
   };
 
   // loop over each set
-  for(var i=0; i<show.sets.length; i++) {
+  for (var i = 0; i < show.sets.length; i++) {
     const currentSet = show.sets[i]
     const setQuery = {
       name: currentSet.name.replace(' ', '_').toUpperCase(),
@@ -56,7 +56,7 @@ const getSetlistQuery = async (show) => {
 
 
     // loop over each song in set
-    for(var j=0; j<currentSet.songs.length; j++) {
+    for (var j = 0; j < currentSet.songs.length; j++) {
       const currentSong = currentSet.songs[j];
       // see if song exists in db
 
@@ -69,14 +69,14 @@ const getSetlistQuery = async (show) => {
       const songExists = !!existingSongs.length;
 
       let songQuery = {};
-      if(songExists) {
+      if (songExists) {
         songQuery.connect = { id: existingSongs[0].id };
-      } else { 
+      } else {
         originalArtist = 'Goose';
         songQuery.create = {
-        name: currentSong.name,
-        originalArtist: originalArtist
-       }
+          name: currentSong.name,
+          originalArtist: originalArtist
+        }
       }
 
       setQuery.tracks.create.push({
@@ -99,15 +99,15 @@ const startScript = async () => {
   await prisma.mutation.deleteManyShows();
   await prisma.mutation.deleteManyVenues();
 
-  for(var j=1; j < 5; j++) {
+  for (var j = 1; j < 5; j++) {
     const { data } = await axios.get(`https://www.phantasytour.com/api/bands/7465/setlists/paged?page=${j}&pageSize=100&timespan=past`);
-  
-    for(var i=0; i<data.length; i++) {
+
+    for (var i = 0; i < data.length; i++) {
       const show = data[i];
-  
+
       const venueQuery = await getVenueQuery(show);
       const setlistQuery = await getSetlistQuery(show);
-  
+
       const showQuery = {
         data: {
           date: show.dateTime,
@@ -115,8 +115,9 @@ const startScript = async () => {
           setlist: setlistQuery
         }
       }
-  
+
       const newShow = await prisma.mutation.createShow(showQuery, '{ id setlist { id name tracks { id song { id name originalArtist } } } }')
+      console.log(`created ${newShow._id}`)
     }
   }
 }

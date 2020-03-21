@@ -48,8 +48,6 @@ export const Mutation = {
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
-    console.log('userId: ', userId);
-    console.log('args: ', args.data);
 
     if (typeof args.data.password === 'string') {
       args.data.password = await hashPassword(args.data.password);
@@ -85,5 +83,11 @@ export const Mutation = {
       data: args.data
     }, '{ id date venue { id name city state } setlist { id name tracks { id notes song { id name } } } }');
     return show
+  },
+  async createVideo(parent, args, { prisma }, info) {
+    const video = await prisma.mutation.createVideo({
+      data: args.data
+    }, '{ id videoId tracks { id song { id name } } }');
+    return video
   },
 }

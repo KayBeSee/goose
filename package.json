@@ -17,7 +17,8 @@
     "deploy-dev": "npm run update-prisma-dev && npm run get-schema-dev",
     "deploy-test": "npm run update-prisma-test && npm run get-schema-test",
     "deploy-scrape": "npm run update-prisma-scrape && npm run get-schema-scrape",
-    "scrape": "env-cmd ./config/test.env node ./utils/ptScraper.js"
+    "scrape": "env-cmd ./config/test.env node ./utils/ptScraper.js",
+    "relisten": "env-cmd ./config/dev.env node ./utils/relistenPopulator.js"
   },
   "jest": {
     "globalSetup": "./tests/jest/globalSetup.js",
@@ -47,6 +48,7 @@
     "graphql-cli": "^2.16.4",
     "graphql-yoga": "1.16.7",
     "jsonwebtoken": "^8.3.0",
+    "moment": "^2.24.0",
     "prisma-binding": "^2.1.1",
     "subscriptions-transport-ws": "^0.9.15",
     "uuid": "^3.3.2"

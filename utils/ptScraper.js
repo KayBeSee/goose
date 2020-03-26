@@ -94,7 +94,7 @@ const getSetlistQuery = async (show) => {
 const startScript = async () => {
 
   await prisma.mutation.deleteManyTracks();
-  await prisma.mutation.deleteManySongs();
+  // await prisma.mutation.deleteManySongs();
   await prisma.mutation.deleteManySets();
   await prisma.mutation.deleteManyShows();
   await prisma.mutation.deleteManyVenues();

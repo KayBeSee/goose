@@ -27,6 +27,7 @@ type Show {
   attendees: [User!]! @relation(name: "UserToShow", onDelete: SET_NULL)
   # comments: [Comment!]! @relation("CommentToShow", onDelete: CASCADE)
   archiveUrl: String
+  relisten: String
   nugsNetId: String
   bandcampAlbumId: String
 }

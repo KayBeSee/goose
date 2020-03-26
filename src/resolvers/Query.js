@@ -78,5 +78,17 @@ export const Query = {
   },
   async venues(parent, args, { prisma }, info) {
     return await prisma.query.venues();
-  }
+  },
+
+  async videos(parent, args, { prisma, request }, info) {
+    const opArgs = {
+      where: args.where,
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy
+    };
+
+    return await prisma.query.videos(opArgs, info);
+  },
 };

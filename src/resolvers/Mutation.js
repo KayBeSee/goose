@@ -84,9 +84,23 @@ export const Mutation = {
     }, '{ id date venue { id name city state } setlist { id name tracks { id notes song { id name } } } }');
     return show
   },
+  async updateShow(parent, args, { prisma }, info) {
+    console.log("args: ", args);
+    const updatedShow = await prisma.mutation.updateShow({
+      where: args.where,
+      data: args.data
+    }, '{ id date venue { id name city state } setlist { id name tracks { id notes song { id name } } } }');
+    return updatedShow
+  },
   async createVideo(parent, args, { prisma }, info) {
     const video = await prisma.mutation.createVideo({
       data: args.data
+    }, '{ id videoId tracks { id song { id name } } }');
+    return video
+  },
+  async deleteVideo(parent, args, { prisma }, info) {
+    const video = await prisma.mutation.deleteVideo({
+      where: args.where
     }, '{ id videoId tracks { id song { id name } } }');
     return video
   },

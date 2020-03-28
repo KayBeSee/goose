@@ -92,6 +92,12 @@ export const Mutation = {
     }, '{ id date venue { id name city state } setlist { id name tracks { id notes song { id name } } } }');
     return updatedShow
   },
+  async createVenue(parent, args, { prisma }, info) {
+    const venue = await prisma.mutation.createVenue({
+      data: args.data
+    }, '{ id name city state }');
+    return venue
+  },
   async createVideo(parent, args, { prisma }, info) {
     const video = await prisma.mutation.createVideo({
       data: args.data

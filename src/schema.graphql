@@ -1,4 +1,4 @@
-# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, ShowCreateInput, ShowUpdateInput, VideoCreateInput, VideoWhereUniqueInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput,VenueOrderByInput, TrackOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
+# import User, Song, Show, Set, Track, Venue, Video, UserCreateInput, ShowCreateInput, VenueCreateInput, ShowUpdateInput, VideoCreateInput, VideoWhereUniqueInput, UserOrderByInput, SongOrderByInput, ShowOrderByInput, SetOrderByInput,VenueOrderByInput, TrackOrderByInput, TrackCreateInput, SongCreateInput, ShowWhereUniqueInput, SongWhereUniqueInput, TrackWhereUniqueInput, UserUpdateInput from "./generated/prisma.graphql"
 
 type Query {
   users(where: UserWhereInput, first: Int, skip: Int, after:String, orderBy: UserOrderByInput): [User!]!
@@ -28,6 +28,9 @@ type Mutation {
   createSet(data: SetCreateInput!): Set!
   createShow(data: ShowCreateInput!): Show!
   updateShow(data: ShowUpdateInput!, where: ShowWhereUniqueInput!): Show!
+
+  createVenue(data: VenueCreateInput!): Venue!
+
   createVideo(data: VideoCreateInput!): Video!
   deleteVideo(where: VideoWhereUniqueInput!): Video!
 }

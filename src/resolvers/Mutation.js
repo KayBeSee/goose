@@ -101,7 +101,7 @@ export const Mutation = {
   async createVideo(parent, args, { prisma }, info) {
     const video = await prisma.mutation.createVideo({
       data: args.data
-    }, '{ id videoId tracks { id song { id name } } }');
+    }, '{ id videoId tracks { id song { id name } set { id show { id } } } }');
     return video
   },
   async deleteVideo(parent, args, { prisma }, info) {

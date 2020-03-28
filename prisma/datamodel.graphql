@@ -35,7 +35,7 @@ type Show {
 type Set {
   id: ID! @unique @id
   name: SetNumber
-  tracks: [Track!]! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  tracks: [Track!]! @relation(name: "TrackToSet", onDelete: CASCADE)
   show: Show! @relation(name: "SetToShow", onDelete: SET_NULL)
 }
 
@@ -45,7 +45,7 @@ type Track {
   segue: Boolean
   song: Song! @relation(name: "TrackToSong", onDelete: SET_NULL)
   # show: Show! @relation(name: "TrackToSet", onDelete: SET_NULL)
-  set: Set! @relation(name: "TrackToSet", onDelete: SET_NULL)
+  set: Set! @relation(name: "TrackToSet", onDelete: CASCADE)
   videos: [Video!]! @relation(name: "VideoToTrack", onDelete: SET_NULL)
 }
 
